@@ -8,7 +8,7 @@
 
 Block::Block(unsigned int id) : block_id{ id } {}
 
-Block::Block() : block_id { 0 } {}
+Block::Block() : block_id { 17 } {}
 
 void Block::Draw(Shader *shader, int x, int y, int z)
 {

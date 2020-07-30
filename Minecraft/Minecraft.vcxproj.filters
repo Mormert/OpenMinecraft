@@ -99,7 +99,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="textures\terrain.png">
+    <Image Include="terrain.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

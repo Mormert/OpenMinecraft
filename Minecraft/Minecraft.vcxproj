@@ -155,7 +155,7 @@
     <None Include="block.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="textures\terrain.png" />
+    <Image Include="terrain.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,4 +21,5 @@ public:
 
 private:
 	static BlockType blockTypeList[256];
+	static unsigned int TextureID;
 };

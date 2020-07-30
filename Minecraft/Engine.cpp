@@ -22,7 +22,7 @@ void Engine::Start()
 	InputManager::LinkWindow(renderWindow);
 
 	camera = new Camera();
-	renderer->Init(2000, 2000, 45.0f);
+	renderer->Init(1200, 1000, 45.0f);
 
 	gameManager = new GameManager();
 	gameManager->GameInit();

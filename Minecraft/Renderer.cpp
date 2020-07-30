@@ -53,18 +53,25 @@ void Renderer::SetAspectRatio(int w, int h)
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
 
+std::vector<blocktuple> proximityBlocks;
+double lastProximityBlocksUpdate = 0;
 void Renderer::Render(const Camera &camera)
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-
 	blockShader->Use();
 	blockShader->SetMat4("view", camera.GetViewMatrix());
 
+	double currentTime = glfwGetTime();
+	if ((currentTime - lastProximityBlocksUpdate) > 1.0)
+	{
+		proximityBlocks = World::GetProximityBlocks(camera.Position.x, camera.Position.y, camera.Position.z);
+		lastProximityBlocksUpdate = currentTime;
+	}
+	
 	// Render blocks in the proximity to the camera
-	std::vector<blocktuple> rbs = World::GetProximityBlocks(camera.Position.x,camera.Position.y,camera.Position.z);
-	for (const auto& block : rbs)
+	for (const auto& block : proximityBlocks)
 	{
 		std::get<3>(block)->Draw(blockShader, std::get<0>(block), std::get<1>(block), std::get<2>(block));
 	}

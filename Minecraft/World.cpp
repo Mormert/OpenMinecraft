@@ -6,7 +6,9 @@
 
 #include <tuple>
 
-Block World::blocks[10][10][10]{};
+#include <iostream>
+
+Block World::blocks[100][100][100]{};
 
 void World::GenerateWorld(int seed)
 {
@@ -15,21 +17,30 @@ void World::GenerateWorld(int seed)
 
 std::vector<blocktuple> World::GetProximityBlocks(int x, int y, int z)
 {
+
+	//std::cout << x << ", " << y << ", " << z << "\n";
+
 	std::vector<blocktuple> blocktupleVector;
 
-	for (int i = 0; i < 10; i++)
+	const int distX{ 25 };
+	const int distY{ 5 };
+	const int distZ{ 25 };
+
+	for (int i = x- distX; i < x+ distX; i++)
 	{
-		for (int j = 0; j < 10; j++)
+		for (int j = y- distY; j < y+ distY; j++)
 		{
-			for (int k = 0; k < 10; k++)
+			for (int k = z- distZ; k < z+ distZ; k++)
 			{
-				if (glm::distance(glm::vec3{i,j,k}, glm::vec3{x,y,z}) < 25.0f)
+				if (i < 0 | i > 99 | j < 0 | j > 99 | k < 0 | k > 99)
+				{}
+				else
 				{
+					//std::cout << i << std::endl;
 					blocktupleVector.push_back(std::make_tuple(i, j, k, &blocks[i][j][k]));
 				}
 			}
 		}
 	}
-
 	return blocktupleVector;
 }

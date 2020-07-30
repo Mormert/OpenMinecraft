@@ -14,8 +14,9 @@ public:
 	static void GenerateWorld(int seed);
 
 	static std::vector<blocktuple> GetProximityBlocks(int x, int y, int z);
+	
 
 private:
-	static Block blocks[10][10][10];
+	static Block blocks[100][100][100];
 };
 
