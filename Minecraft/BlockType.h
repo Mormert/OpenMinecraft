@@ -13,7 +13,7 @@ public:
 	unsigned int GetVAO();
 
 private:
-	unsigned int VAO, VBO;
+	unsigned int VAO, VBO, InstanceBuffer;
 
 public:
 	static BlockType *GetBlockType(unsigned int id);

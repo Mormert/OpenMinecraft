@@ -71,10 +71,16 @@ void Renderer::Render(const Camera &camera)
 	}
 	
 	// Render blocks in the proximity to the camera
-	for (const auto& block : proximityBlocks)
-	{
-		std::get<3>(block)->Draw(blockShader, std::get<0>(block), std::get<1>(block), std::get<2>(block));
-	}
+	//for (const auto& block : proximityBlocks)
+	//{
+	//	std::get<3>(block)->Draw(blockShader, std::get<0>(block), std::get<1>(block), std::get<2>(block));
+	//}
+
+	BlockType *tmp = BlockType::GetBlockType(1);
+	unsigned int vao = tmp->GetVAO();
+
+	glBindVertexArray(vao);
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 27000);
 	
 }
 

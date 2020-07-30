@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 
 #include "stb_image.h"
@@ -13,6 +15,9 @@ void BlockType::Init(unsigned int id)
 {
 	int x = id % 16;
 	int y = id / 16;
+
+	x = 0;
+	y = 0;
 
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f, x/16.0f,		y/16.0f,
@@ -58,6 +63,30 @@ void BlockType::Init(unsigned int id)
 		-0.5f,  0.5f, -0.5f, x / 16.0f,		y / 16.0f
 	};
 
+	glm::vec4 instancingData[27000];
+	int index = 0;
+	float offset = 0.1f;
+	for (int y = -30; y < 30; y += 2)
+	{
+		for (int x = -30; x < 30; x += 2)
+		{
+			for (int z = -30; z < 30; z += 2)
+			{
+				glm::vec4 instancingDat;
+				instancingDat.x = (float)x + offset;
+				instancingDat.y = (float)y + offset;
+				instancingDat.z = (float)z + offset;
+				instancingDat.w = (rand() % 100) + 1;
+				instancingData[index++] = instancingDat;
+			}
+		}
+	}
+
+	glGenBuffers(1, &InstanceBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, InstanceBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 27000, &instancingData[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 
@@ -66,10 +95,21 @@ void BlockType::Init(unsigned int id)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+	// vertex position attribute x, y, z
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	// texture coords attribute u, v
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	
+	// world space position x, y, z, (and 4th variable holding block's id) w
+	// used for instanced rendering
+	glBindBuffer(GL_ARRAY_BUFFER, InstanceBuffer);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribDivisor(2, 1); // Only go to next attribute on next instance draw
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -114,7 +154,7 @@ void BlockType::InitBlockTypes(const char *texturePath)
 	}
 	stbi_image_free(data);
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		blockTypeList[i].Init(i);
 	}
