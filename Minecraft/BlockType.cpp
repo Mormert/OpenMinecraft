@@ -10,6 +10,8 @@
 
 BlockType BlockType::blockTypeList[256] {};
 unsigned int BlockType::TextureID{ 0 };
+unsigned int BlockType::BlocksToRender{ 0 };
+unsigned int BlockType::InstanceBuffer{ 0 };
 
 void BlockType::Init(unsigned int id)
 {
@@ -84,7 +86,7 @@ void BlockType::Init(unsigned int id)
 
 	glGenBuffers(1, &InstanceBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, InstanceBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 27000, &instancingData[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 27000, &instancingData[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenVertexArrays(1, &VAO);
@@ -154,8 +156,7 @@ void BlockType::InitBlockTypes(const char *texturePath)
 	}
 	stbi_image_free(data);
 
-	for (int i = 0; i < 2; i++)
-	{
-		blockTypeList[i].Init(i);
-	}
+	
+	blockTypeList[0].Init(0);
+	
 }

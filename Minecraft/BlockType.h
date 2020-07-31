@@ -12,8 +12,11 @@ public:
 
 	unsigned int GetVAO();
 
+	static unsigned int InstanceBuffer;
+	static unsigned int BlocksToRender;
+
 private:
-	unsigned int VAO, VBO, InstanceBuffer;
+	unsigned int VAO, VBO;
 
 public:
 	static BlockType *GetBlockType(unsigned int id);

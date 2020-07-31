@@ -1,5 +1,10 @@
 #include "Engine.h"
 
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 #include "InputManager.h"
 #include "CameraController.h"
 
@@ -17,9 +22,11 @@ void Engine::Start()
 
 	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
 
-	renderWindow->FpsModeCursor(true);
+	renderWindow->FpsModeCursor(false);
 
 	InputManager::LinkWindow(renderWindow);
+
+	imGuiRenderer = new ImGuiRenderer(&renderWindow->GetNativeWindow());
 
 	camera = new Camera();
 	renderer->Init(1200, 1000, 45.0f);
@@ -43,10 +50,10 @@ void Engine::Loop()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		
-
 		Update(deltaTime);
 		Render();
+
+		imGuiRenderer->Render();
 
 		CollectInput();
 
@@ -85,6 +92,7 @@ void Engine::Stop()
 
 void Engine::Close()
 {
+	delete imGuiRenderer;
 	delete renderWindow;
 	delete renderer;
 	delete camera;

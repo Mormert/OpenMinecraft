@@ -4,6 +4,8 @@
 #include "Shader.h"
 #include "Camera.h"
 
+#include "BlockRenderer.h"
+
 class Renderer
 {
 public:
@@ -21,6 +23,8 @@ private:
 	glm::mat4 projection;
 
 	Shader* blockShader;
+
+	BlockRenderer* blockRenderer;
 
 	float projRatio;
 	float projNearClip;

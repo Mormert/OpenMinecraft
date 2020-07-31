@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "Renderer.h"
+#include "ImGuiRenderer.h"
 #include "Camera.h"
 #include "GameManager.h"
 
@@ -24,6 +25,7 @@ private:
 
 	Window* renderWindow;
 	Renderer* renderer;
+	ImGuiRenderer* imGuiRenderer;
 	Camera* camera;
 	GameManager* gameManager;
 };

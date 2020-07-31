@@ -1,25 +1,17 @@
 #include "Renderer.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
 
-#include "Block.h"
-#include "BlockType.h"
-
-#include "World.h"
-
 #include <iostream>
 #include <vector>
 #include <tuple>
 
-Block blocks[10][10][10];
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 void Renderer::Init(int width, int height, float fovDegree)
 {
@@ -28,6 +20,7 @@ void Renderer::Init(int width, int height, float fovDegree)
 	glEnable(GL_MULTISAMPLE);
 
 	blockShader = new Shader("block.vert", "block.frag");
+	blockRenderer = new BlockRenderer();
 
 	projFarClip = 100.0f;
 	projNearClip = 0.1f;
@@ -53,7 +46,6 @@ void Renderer::SetAspectRatio(int w, int h)
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
 
-std::vector<blocktuple> proximityBlocks;
 double lastProximityBlocksUpdate = 0;
 void Renderer::Render(const Camera &camera)
 {
@@ -64,27 +56,19 @@ void Renderer::Render(const Camera &camera)
 	blockShader->SetMat4("view", camera.GetViewMatrix());
 
 	double currentTime = glfwGetTime();
-	if ((currentTime - lastProximityBlocksUpdate) > 1.0)
+	if ((currentTime - lastProximityBlocksUpdate) > 5.0)
 	{
-		proximityBlocks = World::GetProximityBlocks(camera.Position.x, camera.Position.y, camera.Position.z);
+		blockRenderer->BufferBlocks(nullptr, 0);
 		lastProximityBlocksUpdate = currentTime;
 	}
-	
-	// Render blocks in the proximity to the camera
-	//for (const auto& block : proximityBlocks)
-	//{
-	//	std::get<3>(block)->Draw(blockShader, std::get<0>(block), std::get<1>(block), std::get<2>(block));
-	//}
 
-	BlockType *tmp = BlockType::GetBlockType(1);
-	unsigned int vao = tmp->GetVAO();
 
-	glBindVertexArray(vao);
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 27000);
+	blockRenderer->RenderBlocks();
 	
 }
 
 Renderer::~Renderer()
 {
-
+	delete blockRenderer;
+	delete blockShader;
 }
