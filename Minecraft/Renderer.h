@@ -9,7 +9,8 @@
 class Renderer
 {
 public:
-	void Init(int width, int height, float fovDegree);
+	Renderer(int scr_width, int scr_height, float camFovDegree);
+	~Renderer();
 
 	// Render with camera's view matrix
 	void Render(const Camera& camera);
@@ -17,13 +18,10 @@ public:
 	void SetPerspective(float FovDegree, float ratio, float nearClip, float farClip);
 	void SetAspectRatio(int w, int h);
 
-	~Renderer();
-
 private:
 	glm::mat4 projection;
 
 	Shader* blockShader;
-
 	BlockRenderer* blockRenderer;
 
 	float projRatio;

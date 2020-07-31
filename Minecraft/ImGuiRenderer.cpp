@@ -31,8 +31,6 @@ void ImGuiRenderer::Render()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow();
-
 	// render your GUI
 	ImGui::Begin("Triangle Position/Color");
 	static float rotation = 0.0;

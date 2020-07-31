@@ -13,9 +13,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-void Renderer::Init(int width, int height, float fovDegree)
+Renderer::Renderer(int scr_width, int scr_height, float camFovDegree)
 {
-
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
@@ -24,13 +23,20 @@ void Renderer::Init(int width, int height, float fovDegree)
 
 	projFarClip = 100.0f;
 	projNearClip = 0.1f;
-	projFovDegree = fovDegree;
-	projRatio = static_cast<float>(width) / static_cast<float>(height);
+	projFovDegree = camFovDegree;
+	projRatio = static_cast<float>(scr_width) / static_cast<float>(scr_height);
+
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 
 	blockShader->Use();
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
 	blockShader->SetMat4("projection", projection);
+}
+
+Renderer::~Renderer()
+{
+	delete blockRenderer;
+	delete blockShader;
 }
 
 void Renderer::SetPerspective(float FovDegree, float ratio, float nearClip, float farClip)
@@ -46,7 +52,7 @@ void Renderer::SetAspectRatio(int w, int h)
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
 
-double lastProximityBlocksUpdate = 0;
+double lastProximityBlocksUpdate = 5.0;
 void Renderer::Render(const Camera &camera)
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -65,10 +71,4 @@ void Renderer::Render(const Camera &camera)
 
 	blockRenderer->RenderBlocks();
 	
-}
-
-Renderer::~Renderer()
-{
-	delete blockRenderer;
-	delete blockShader;
 }

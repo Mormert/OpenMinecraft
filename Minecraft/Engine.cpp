@@ -1,10 +1,5 @@
 #include "Engine.h"
 
-
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-
 #include "InputManager.h"
 #include "CameraController.h"
 
@@ -12,27 +7,38 @@
 
 #include <iostream>
 
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
+int EngineStatus::fps{ 0 };
+float EngineStatus::deltaTime{ 0.0f };
+float EngineStatus::currentFrame{ 0.0f };
+float EngineStatus::lastFrame{ 0.0f };
+double EngineStatus::time{ 0.0 };
 
-void Engine::Start()
+const char*		WINDOW_TITLE	{ "Minecraft" };
+constexpr int	SCR_WIDTH		{ 1200 };
+constexpr int	SCR_HEIGHT		{ 1000 };
+constexpr float CAM_FOV			{ 45.0f };
+
+Engine::Engine()
 {
-	renderer = new Renderer();
-	renderWindow = new Window(1200, 1000, "Minecraft", InputManager::ResizeWindowEvent);
-
-	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
-
+	renderWindow = new Window(SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE, InputManager::ResizeWindowEvent);
 	renderWindow->FpsModeCursor(false);
 
+	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, CAM_FOV);
+
+	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
 	InputManager::LinkWindow(renderWindow);
 
 	imGuiRenderer = new ImGuiRenderer(&renderWindow->GetNativeWindow());
 
 	camera = new Camera();
-	renderer->Init(1200, 1000, 45.0f);
+}
 
-	gameManager = new GameManager();
-	gameManager->GameInit();
+Engine::~Engine()
+{
+	delete imGuiRenderer;
+	delete renderer;
+	delete renderWindow;
+	delete camera;
 }
 
 void Engine::Run()
@@ -45,14 +51,13 @@ void Engine::Loop()
 {
 	while (running)
 	{
-		
-		float currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		EngineStatus::currentFrame = glfwGetTime();
+		EngineStatus::deltaTime = EngineStatus::currentFrame - EngineStatus::lastFrame;
+		EngineStatus::lastFrame = EngineStatus::currentFrame;
 
-		Update(deltaTime);
-		Render();
+		Update(EngineStatus::deltaTime);
 
+		renderer->Render(*camera);
 		imGuiRenderer->Render();
 
 		CollectInput();
@@ -61,7 +66,6 @@ void Engine::Loop()
 		
 		running = !renderWindow->ShouldClose();
 	}
-	Close();
 }
 
 void Engine::CollectInput()
@@ -74,26 +78,6 @@ void Engine::CollectInput()
 void Engine::Update(float dt)
 {
 	CameraController::MoveCameraBasedOnInput(*camera, dt);
-	
-
 
 	
-}
-
-void Engine::Render()
-{
-	renderer->Render(*camera);
-}
-
-void Engine::Stop()
-{
-	running = false;
-}
-
-void Engine::Close()
-{
-	delete imGuiRenderer;
-	delete renderWindow;
-	delete renderer;
-	delete camera;
 }
