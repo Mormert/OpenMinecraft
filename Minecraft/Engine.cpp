@@ -2,8 +2,8 @@
 
 #include "EngineStatus.h"
 
+#include "KeyboardEvents.h"
 #include "InputManager.h"
-#include "CameraController.h"
 
 #include <GLFW/glfw3.h>
 
@@ -27,6 +27,7 @@ Engine::Engine()
 	imGuiRenderer = new ImGuiRenderer(&renderWindow->GetNativeWindow());
 
 	camera = new Camera();
+	camera->SetMainCamera();
 }
 
 Engine::~Engine()
@@ -52,7 +53,7 @@ void Engine::Loop()
 		EngineStatus::lastFrame = EngineStatus::currentFrame;
 		EngineStatus::fps = static_cast<int>(1.0 / EngineStatus::deltaTime);
 
-		Update(EngineStatus::deltaTime);
+		Update();
 
 		renderer->Render(*camera);
 		imGuiRenderer->Render();
@@ -72,9 +73,8 @@ void Engine::CollectInput()
 	renderWindow->PollEvents();
 }
 
-void Engine::Update(float dt)
+void Engine::Update()
 {
-	CameraController::MoveCameraBasedOnInput(*camera, dt);
+	KeyboardEvents::ProcessKeyboardEvents();
 
-	
 }

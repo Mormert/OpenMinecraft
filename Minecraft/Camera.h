@@ -46,6 +46,8 @@ public:
 	// constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 
+	void SetMainCamera();
+
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix() const;
 
@@ -58,7 +60,10 @@ public:
 	// processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 	void ProcessMouseScroll(float yoffset);
 
+	static Camera* GetMainCamera();
+
 private:
 	// calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors();
+	static Camera* mainCamera;
 };

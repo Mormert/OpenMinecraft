@@ -18,7 +18,7 @@ private:
 	void Loop();
 
 	void CollectInput();
-	void Update(float dt);
+	void Update();
 
 	bool running{ false };
 
