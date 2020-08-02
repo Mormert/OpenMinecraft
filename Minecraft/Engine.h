@@ -4,7 +4,6 @@
 #include "Renderer.h"
 #include "ImGuiRenderer.h"
 #include "Camera.h"
-#include "GameManager.h"
 
 class Engine
 {

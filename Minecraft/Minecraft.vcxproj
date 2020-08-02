@@ -123,13 +123,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockRenderer.cpp" />
-    <ClCompile Include="BlockType.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EngineStatus.cpp" />
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -141,16 +138,12 @@
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="ImGuiRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
     <ClInclude Include="BlockRenderer.h" />
-    <ClInclude Include="BlockType.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineStatus.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="imgui_impl_glfw.h" />
     <ClInclude Include="imgui_impl_opengl3.h" />
     <ClInclude Include="InputManager.h" />
@@ -160,7 +153,6 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ImGuiRenderer.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="block.frag" />
