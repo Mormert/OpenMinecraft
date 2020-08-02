@@ -1,17 +1,13 @@
 #include "Engine.h"
 
+#include "EngineStatus.h"
+
 #include "InputManager.h"
 #include "CameraController.h"
 
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-
-int EngineStatus::fps{ 0 };
-float EngineStatus::deltaTime{ 0.0f };
-float EngineStatus::currentFrame{ 0.0f };
-float EngineStatus::lastFrame{ 0.0f };
-double EngineStatus::time{ 0.0 };
 
 const char*		WINDOW_TITLE	{ "Minecraft" };
 constexpr int	SCR_WIDTH		{ 1200 };
@@ -54,6 +50,7 @@ void Engine::Loop()
 		EngineStatus::currentFrame = glfwGetTime();
 		EngineStatus::deltaTime = EngineStatus::currentFrame - EngineStatus::lastFrame;
 		EngineStatus::lastFrame = EngineStatus::currentFrame;
+		EngineStatus::fps = static_cast<int>(1.0 / EngineStatus::deltaTime);
 
 		Update(EngineStatus::deltaTime);
 

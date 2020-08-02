@@ -5,9 +5,11 @@
 #include <functional>
 #include <vector>
 
+
 class InputManager
 {
 public:
+
 	// Was a key pressed?
 	static bool GetKeyPressed(char key);
 

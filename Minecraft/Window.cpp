@@ -75,7 +75,7 @@ Window::Window(int width, int height, const char* title, void(*resizeWindowEvent
 		exit(1);
 	}
 
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 
 	int w, h;
 	glfwGetFramebufferSize(glfwWindow, &w, &h);

@@ -6,23 +6,6 @@
 #include "Camera.h"
 #include "GameManager.h"
 
-class EngineStatus
-{
-public:
-	static int GetFps();
-	static float GetDeltaTime();
-	static double GetTime();
-
-private:
-	static int fps;
-	static float deltaTime;
-	static float currentFrame;
-	static float lastFrame;
-	static double time;
-
-	friend class Engine;
-};
-
 class Engine
 {
 public:
