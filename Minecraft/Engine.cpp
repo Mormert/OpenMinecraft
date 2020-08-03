@@ -16,15 +16,20 @@ constexpr float CAM_FOV			{ 45.0f };
 
 Engine::Engine()
 {
-	renderWindow = new Window(SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE, InputManager::ResizeWindowEvent);
-	renderWindow->FpsModeCursor(false);
+	window = new Window(SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE);
+	window->SetResizeWindowEvent(InputManager::ResizeWindowEvent);
+	window->SetKeyPressedEvent(InputManager::KeyPressedEvent);
+	window->SetKeyReleasedEvent(InputManager::KeyReleasedEvent);
+	
+	window->FpsModeCursor(true);
+	window->SetMainWindow();
 
 	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, CAM_FOV);
 
 	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
-	InputManager::LinkWindow(renderWindow);
+	InputManager::LinkWindow(window);
 
-	imGuiRenderer = new ImGuiRenderer(&renderWindow->GetNativeWindow());
+	imGuiRenderer = new ImGuiRenderer(&window->GetNativeWindow());
 
 	camera = new Camera();
 	camera->SetMainCamera();
@@ -34,7 +39,7 @@ Engine::~Engine()
 {
 	delete imGuiRenderer;
 	delete renderer;
-	delete renderWindow;
+	delete window;
 	delete camera;
 }
 
@@ -60,17 +65,17 @@ void Engine::Loop()
 
 		CollectInput();
 
-		renderWindow->SwapBuffers();
+		window->SwapBuffers();
 		
-		running = !renderWindow->ShouldClose();
+		running = !window->ShouldClose();
 	}
 }
 
 void Engine::CollectInput()
 {
-	InputManager::FlushKeyPressArray();
+	InputManager::FlushKeyPresses();
 	InputManager::UpdateLastMousePosition();
-	renderWindow->PollEvents();
+	window->PollEvents();
 }
 
 void Engine::Update()

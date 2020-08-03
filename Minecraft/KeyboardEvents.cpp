@@ -4,6 +4,7 @@
 
 #include "EngineStatus.h"
 #include "InputState.h"
+#include "Window.h"
 
 #include "Camera.h"
 
@@ -40,9 +41,14 @@ void ProcessMovement()
 
 void ProcessInputState()
 {
-	if (InputManager::GetKeyDown('0'))
+	if (InputManager::GetKeyPressed('0'))
 	{
 		InputState::state.showDebugInfo = !InputState::state.showDebugInfo;
+	}
+	if (InputManager::GetKeyPressed('9'))
+	{
+		Window* window = Window::GetMainWindow();
+		window->FpsModeCursor(!window->fpsModeEnabled);
 	}
 }
 

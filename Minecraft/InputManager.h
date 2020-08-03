@@ -10,10 +10,8 @@ class InputManager
 {
 public:
 
-	// Was a key pressed?
 	static bool GetKeyPressed(char key);
-
-	// Is a key held down?
+	static bool GetKeyReleased(char key);
 	static bool GetKeyDown(char key);
 
 	static int GetMouseX();
@@ -29,12 +27,14 @@ public:
 	static void LinkWindow(Window *w);
 
 	// Called from window manager
-	static void SetKeyPressed(char key);
 	static void SetScrollX(float xscrl);
 	static void SetScrollY(float yscrl);
 
 	static void UpdateLastMousePosition();
-	static void FlushKeyPressArray();
+	static void FlushKeyPresses();
+
+	static void KeyPressedEvent(char key);
+	static void KeyReleasedEvent(char key);
 
 	static void ResizeWindowEvent(int x, int y);
 
@@ -45,8 +45,8 @@ public:
 	}
 
 private:
-	static bool keyPressed[];
-	static bool keyDown[];
+	static std::vector<char> keysPressed;
+	static std::vector<char> keysReleased;
 	static int mouseX, mouseY;
 	static int lastX, lastY;
 	static float scrollX, scrollY;

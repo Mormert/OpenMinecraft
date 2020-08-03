@@ -21,7 +21,7 @@ private:
 
 	bool running{ false };
 
-	Window* renderWindow;
+	Window* window;
 	Renderer* renderer;
 	ImGuiRenderer* imGuiRenderer;
 	Camera* camera;

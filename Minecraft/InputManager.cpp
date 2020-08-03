@@ -2,21 +2,42 @@
 
 #include <GLFW/glfw3.h>
 
+#include <algorithm>
+
 #include <iostream>
 
-bool InputManager::keyPressed[256];
+std::vector<char> InputManager::keysPressed{};
+std::vector<char> InputManager::keysReleased{};
+
 int InputManager::mouseX{ 0 };
 int InputManager::mouseY{ 0 };
+
 int InputManager::lastX{ 0 };
 int InputManager::lastY{ 0 };
+
 float InputManager::scrollX{ 0.0f };
 float InputManager::scrollY{ 0.0f };
+
 Window* InputManager::window{ nullptr };
+
 std::vector<std::function<void(int, int)>> InputManager::resizeWindowCallbacks{};
 
 bool InputManager::GetKeyPressed(char key)
 {
-	return keyPressed[key];
+	if (std::find(keysPressed.begin(), keysPressed.end(), key) != keysPressed.end())
+	{
+		return true;
+	}
+	return false;
+}
+
+bool InputManager::GetKeyReleased(char key)
+{
+	if (std::find(keysReleased.begin(), keysReleased.end(), key) != keysReleased.end())
+	{
+		return true;
+	}
+	return false;
 }
 
 bool InputManager::GetKeyDown(char key)
@@ -63,12 +84,6 @@ float InputManager::GetScrollY()
 	return scrollY;
 }
 
-void InputManager::SetKeyPressed(char key)
-{
-	keyPressed[key] = true;
-}
-
-
 void InputManager::SetScrollX(float xscrl)
 {
 	scrollX = xscrl;
@@ -84,6 +99,16 @@ void InputManager::LinkWindow(Window *w)
 	window = w;
 }
 
+void InputManager::KeyPressedEvent(char key)
+{
+	keysPressed.push_back(key);
+}
+
+void InputManager::KeyReleasedEvent(char key)
+{
+	keysReleased.push_back(key);
+}
+
 void InputManager::ResizeWindowEvent(int x, int y)
 {
 	for (const auto& cb : resizeWindowCallbacks) { cb(x, y); }
@@ -97,10 +122,8 @@ void InputManager::UpdateLastMousePosition()
 	lastY = static_cast<int>(y);
 }
 
-void InputManager::FlushKeyPressArray()
+void InputManager::FlushKeyPresses()
 {
-	for (unsigned int i = 0; i < 256; i++)
-	{
-		keyPressed[i] = false;
-	}
+	keysPressed.clear();
+	keysReleased.clear();
 }
