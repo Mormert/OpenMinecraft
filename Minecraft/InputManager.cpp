@@ -1,5 +1,7 @@
 #include "InputManager.h"
 
+#include "InputState.h"
+
 #include <GLFW/glfw3.h>
 
 #include <algorithm>
@@ -9,11 +11,8 @@
 std::vector<char> InputManager::keysPressed{};
 std::vector<char> InputManager::keysReleased{};
 
-int InputManager::mouseX{ 0 };
-int InputManager::mouseY{ 0 };
-
-int InputManager::lastX{ 0 };
-int InputManager::lastY{ 0 };
+int InputManager::lastMouseX{ 0 };
+int InputManager::lastMouseY{ 0 };
 
 float InputManager::scrollX{ 0.0f };
 float InputManager::scrollY{ 0.0f };
@@ -64,14 +63,14 @@ float InputManager::GetMouseXDelta()
 {
 	double x, y;
 	glfwGetCursorPos(&window->GetNativeWindow(), &x, &y);
-	return x - lastX;
+	return x - lastMouseX;
 }
 
 float InputManager::GetMouseYDelta()
 {
 	double x, y;
 	glfwGetCursorPos(&window->GetNativeWindow(), &x, &y);
-	return lastY - y;
+	return lastMouseY - y;
 }
 
 float InputManager::GetScrollX()
@@ -101,11 +100,13 @@ void InputManager::LinkWindow(Window *w)
 
 void InputManager::KeyPressedEvent(char key)
 {
+	InputState::debugState.lastPressedButton = key;
 	keysPressed.push_back(key);
 }
 
 void InputManager::KeyReleasedEvent(char key)
 {
+	InputState::debugState.lastReleasedButton = key;
 	keysReleased.push_back(key);
 }
 
@@ -118,8 +119,8 @@ void InputManager::UpdateLastMousePosition()
 {
 	double x, y;
 	glfwGetCursorPos(&window->GetNativeWindow(), &x, &y);
-	lastX = static_cast<int>(x);
-	lastY = static_cast<int>(y);
+	lastMouseX = static_cast<int>(x);
+	lastMouseY = static_cast<int>(y);
 }
 
 void InputManager::FlushKeyPresses()

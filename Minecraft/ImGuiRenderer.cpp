@@ -1,12 +1,12 @@
 #include "ImGuiRenderer.h"
 
+#include "Camera.h"
+#include "InputState.h"
+#include "EngineStatus.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
-#include "InputState.h"
-#include "EngineStatus.h"
 
 #include <iostream>
 
@@ -53,7 +53,7 @@ void ImGuiRenderer::Render()
 void RenderDebugInfo()
 {
 	
-	ImGuiWindowFlags window_flags =
+	constexpr ImGuiWindowFlags window_flags =
 		ImGuiWindowFlags_NoDecoration |
 		ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoSavedSettings |
@@ -62,8 +62,10 @@ void RenderDebugInfo()
 		ImGuiWindowFlags_NoMove;
 	if (ImGui::Begin("Debug info", nullptr, window_flags))
 	{
-		ImGui::Text("FPS   : %d", EngineStatus::GetFps());
-		ImGui::Text("MS    : %f", EngineStatus::GetDeltaTime());
+		ImGui::Text("FPS : %d (%f ms)", EngineStatus::GetFps(), EngineStatus::GetDeltaTime());
+		ImGui::Text("Pos   : %f, %f, %f", Camera::GetMainCamera()->Position.x, Camera::GetMainCamera()->Position.y, Camera::GetMainCamera()->Position.z);
+		ImGui::Text("Last Pressed  : %c (%d)", InputState::debugState.lastPressedButton, InputState::debugState.lastPressedButton);
+		ImGui::Text("Last Released : %c (%d)", InputState::debugState.lastReleasedButton, InputState::debugState.lastReleasedButton);
 	}
 	ImGui::End();
 	

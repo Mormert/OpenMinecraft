@@ -41,11 +41,11 @@ void ProcessMovement()
 
 void ProcessInputState()
 {
-	if (InputManager::GetKeyPressed('0'))
+	if (InputManager::GetKeyPressed(static_cast<char>(96))) // '§'
 	{
 		InputState::state.showDebugInfo = !InputState::state.showDebugInfo;
 	}
-	if (InputManager::GetKeyPressed('9'))
+	if (InputManager::GetKeyPressed(static_cast<char>(2))) // Tab
 	{
 		Window* window = Window::GetMainWindow();
 		window->FpsModeCursor(!window->fpsModeEnabled);

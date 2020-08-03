@@ -47,8 +47,7 @@ public:
 private:
 	static std::vector<char> keysPressed;
 	static std::vector<char> keysReleased;
-	static int mouseX, mouseY;
-	static int lastX, lastY;
+	static int lastMouseX, lastMouseY;
 	static float scrollX, scrollY;
 	static Window* window;
 	static std::vector<std::function<void(int, int)>> resizeWindowCallbacks;
