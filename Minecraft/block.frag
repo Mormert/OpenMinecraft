@@ -3,16 +3,21 @@ out vec4 FragColor;
 
 in vec2 TexCoords;
 
-flat in int block_id;
+flat in int face_id;
+in vec4 faces;
 
 uniform sampler2D ourTexture;
 
 void main()
 {    
+	int x = int(faces[face_id]) / 16;
+	int y = int(faces[face_id]) % 16;
+	//int x = face_id / 16;
+	//int y = face_id % 16;
 
-	int x = block_id % 16;
-	int y = block_id / 16;
+	//FragColor = texture(ourTexture, TexCoords + vec2(float(x)/16.0,float(y)/16.0));
 
-    FragColor = texture(ourTexture, TexCoords + vec2(float(x)/16.0,float(y)/16.0));
+	FragColor = texture(ourTexture, TexCoords + vec2(float(x)/16.0,float(y)/16.0));
+
 	
 }

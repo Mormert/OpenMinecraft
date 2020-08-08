@@ -31,6 +31,43 @@ Renderer::Renderer(int scr_width, int scr_height, float camFovDegree)
 	blockShader->Use();
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
 	blockShader->SetMat4("projection", projection);
+
+
+	std::vector<BufferBlockData> instanceData;
+	//BufferBlockData *instancingData = new BufferBlockData[1000];
+
+	int index = 0;
+	for (int y = -5; y < 5; y += 1)
+	{
+		for (int x = -5; x < 5; x += 1)
+		{
+			for (int z = -5; z < 5; z += 1)
+			{
+				glm::vec3 distance{ x,y,z };
+				if (glm::length(distance) > 3.8f) {
+					BufferBlockData instancingDat;
+					instancingDat.data[0] = (float)x;
+					instancingDat.data[1] = (float)y;
+					instancingDat.data[2] = (float)z;
+					instancingDat.data[3] = 0; // 0 rotation
+					instancingDat.data[4] = float((rand() % 255)) + 1.1f;
+					instancingDat.data[5] = float((rand() % 255)) + 1.1f;
+					instancingDat.data[6] = float((rand() % 255)) + 1.1f;
+					instancingDat.data[7] = float((rand() % 255)) + 1.1f;
+
+					//instancingData[index++] = instancingDat;
+					instanceData.push_back(instancingDat);
+				}
+				
+			}
+		}
+	}
+
+	//blockRenderer->BufferChunk(0, 0, instancingData, 1000);
+	blockRenderer->BufferChunk(0, 0, &instanceData[0], instanceData.size());
+
+	//delete[] instancingData;
+
 }
 
 Renderer::~Renderer()
@@ -52,7 +89,7 @@ void Renderer::SetAspectRatio(int w, int h)
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
 
-double lastProximityBlocksUpdate = 5.0;
+double lastProximityBlocksUpdate = 0.0;
 void Renderer::Render(const Camera &camera)
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -62,13 +99,13 @@ void Renderer::Render(const Camera &camera)
 	blockShader->SetMat4("view", camera.GetViewMatrix());
 
 	double currentTime = glfwGetTime();
-	if ((currentTime - lastProximityBlocksUpdate) > 5.0)
+	if ((currentTime - lastProximityBlocksUpdate) > 2.0)
 	{
-		blockRenderer->BufferBlocks(nullptr, 0);
+		//blockRenderer->BufferBlocks(nullptr, 0);
 		lastProximityBlocksUpdate = currentTime;
 	}
 
 
-	blockRenderer->RenderBlocks();
+	blockRenderer->RenderAllBufferedChunks();
 	
 }

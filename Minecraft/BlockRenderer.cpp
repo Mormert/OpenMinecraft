@@ -10,7 +10,6 @@ BlockRenderer::BlockRenderer()
 {
 
 	// Setup texture
-
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -35,60 +34,54 @@ BlockRenderer::BlockRenderer()
 	stbi_image_free(data);
 
 
-	// Setup block buffers
+	constexpr float textureBias = 0.0005f; // Used to prevent sampling from the tiles next to current tile
+	constexpr float one = (1.0f / 16.0f) - textureBias;
+	constexpr float zero = 0.0f + textureBias;
 
 	constexpr float vertices[] = {
-		// Vertex position,		 Texture coordinates
-		-0.5f, -0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f,
-		 0.5f, -0.5f, -0.5f,	 1 / 16.0f,		0 / 16.0f,
-		 0.5f,  0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f,  0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f,  0.5f, -0.5f,	 0 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f,
+		// Vertex position,		 Texture coordinates		// Face id
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			0.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		zero,			0.0f,
+		 0.5f,  0.5f, -0.5f,	 one,		one,			0.0f,
+		 0.5f,  0.5f, -0.5f,	 one,		one,			0.0f,
+		-0.5f,  0.5f, -0.5f,	 zero,		one,			0.0f,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			0.0f,
 
-		-0.5f, -0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
-		 0.5f, -0.5f,  0.5f,	 1 / 16.0f,		0 / 16.0f,
-		 0.5f,  0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f,  0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f,  0.5f,  0.5f,	 0 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
+		-0.5f, -0.5f,  0.5f,	 zero,		zero,			1.0f,
+		 0.5f, -0.5f,  0.5f,	 one,		zero,			1.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			1.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			1.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		one,			1.0f,
+		-0.5f, -0.5f,  0.5f,	 zero,		zero,			1.0f,
 
-		-0.5f,  0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
-		-0.5f,  0.5f, -0.5f,	 1 / 16.0f,		0 / 16.0f,
-		-0.5f, -0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f,  0.5f,	 0 / 16.0f,		1 / 16.0f,
-		-0.5f,  0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			2.0f,
+		-0.5f,  0.5f, -0.5f,	 one,		zero,			2.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			2.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			2.0f,
+		-0.5f, -0.5f,  0.5f,	 zero,		one,			2.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			2.0f,
 
-		 0.5f,  0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
-		 0.5f,  0.5f, -0.5f,	 1 / 16.0f,		0 / 16.0f,
-		 0.5f, -0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f, -0.5f, -0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f, -0.5f,  0.5f,	 0 / 16.0f,		1 / 16.0f,
-		 0.5f,  0.5f,  0.5f,	 0 / 16.0f,		0 / 16.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			3.0f,
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			3.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			3.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			3.0f,
+		 0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			3.0f,
 
-		-0.5f, -0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f,
-		 0.5f, -0.5f, -0.5f,	 1 / 16.0f,		0 / 16.0f,
-		 0.5f, -0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f, -0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f,  0.5f,	 0 / 16.0f,		1 / 16.0f,
-		-0.5f, -0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		zero,			3.0f,
+		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
+		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
+		-0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,
 
-		-0.5f,  0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f,
-		 0.5f,  0.5f, -0.5f,	 1 / 16.0f,		0 / 16.0f,
-		 0.5f,  0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		 0.5f,  0.5f,  0.5f,	 1 / 16.0f,		1 / 16.0f,
-		-0.5f,  0.5f,  0.5f,	 0 / 16.0f,		1 / 16.0f,
-		-0.5f,  0.5f, -0.5f,	 0 / 16.0f,		0 / 16.0f
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			3.0f,
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			3.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			3.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			3.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		one,			3.0f,
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			3.0f
 	};
-
-	// Setup instance buffer used for storing the blocks to be rendered
-	// in one single draw call
-	glGenBuffers(1, &instanceBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 0, (void*)0, GL_DYNAMIC_DRAW); // Empty buffer
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 
 	// Setup vertex array object
 	glGenVertexArrays(1, &VAO);
@@ -100,22 +93,25 @@ BlockRenderer::BlockRenderer()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Vertex position attribute x, y, z
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// Texture coords attribute u, v
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	// World space position x, y, z, (and 4th variable holding block's id) w
-	// used for instanced rendering. Note that this is using the instance buffer, not the VBO buffer.
-	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	// Face id (works just like normal vectors but takes less space)
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(2, 1); // Only go to next attribute on next instance draw
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glEnableVertexAttribArray(3);	// 3 includes the block's x, y, z, rot
+	glEnableVertexAttribArray(4);	// 4 includes the block's different textures on the sides
+
+	// Only go to next attribute on next instance draw
+	glVertexAttribDivisor(3, 1);	
+	glVertexAttribDivisor(4, 1);
 
 	glBindVertexArray(0);
 
@@ -123,49 +119,55 @@ BlockRenderer::BlockRenderer()
 
 BlockRenderer::~BlockRenderer()
 {
-	glDeleteBuffers(1, &instanceBuffer);
+
+	for (auto bufferedChunk : chunkInstanceBuffers)
+	{
+		glDeleteBuffers(1, &bufferedChunk.second.gfxBuffer);
+	}
+
 	glDeleteBuffers(1, &VBO);
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteTextures(1, &texture);
 }
 
-void BlockRenderer::RenderBlocks()
+void BlockRenderer::RenderAllBufferedChunks()
 {
 	glBindVertexArray(VAO);
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 36, blocksCountRender);
+	for (auto bufferedChunk : chunkInstanceBuffers)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
+
+		// Change vertex attribute pointers to this instance buffer's data
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // x, y, z, rot
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float))); // 4 different texture coordinates
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glDrawArraysInstanced(GL_TRIANGLES, 0, 36, bufferedChunk.second.amount);
+	}
 }
 
-void BlockRenderer::BufferBlocks(glm::vec4 *vec, unsigned int amount)
+void BlockRenderer::BufferChunk(int x, int z, BufferBlockData *data, unsigned int amount)
 {
 
-	amount = 1000000;
+	std::unordered_map<std::pair<int, int>, BufferedChunk,
+		boost::hash<std::pair<int, int>>>::const_iterator got = chunkInstanceBuffers.find(std::make_pair(x,z));
 
-	glm::vec4 *instancingData = new glm::vec4[1000000];
-
-	int index = 0;
-	float offset = 0.1f;
-	for (int y = -100; y < 100; y += 2)
+	// Has this chunk's buffers already been created?
+	if (got == chunkInstanceBuffers.end())
 	{
-		for (int x = -100; x < 100; x += 2)
-		{
-			for (int z = -100; z < 100; z += 2)
-			{
-				glm::vec4 instancingDat;
-				instancingDat.x = (float)x + offset;
-				instancingDat.y = (float)y + offset;
-				instancingDat.z = (float)z + offset;
-				instancingDat.w = (rand() % 100) + 1;
-				instancingData[index++] = instancingDat;
-			}
-		}
+		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, amount }));
+		glGenBuffers(1, &inserted.first->second.gfxBuffer);
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * amount, &instancingData[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, chunkInstanceBuffers.at(std::make_pair(x, z)).gfxBuffer);
+	
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BufferBlockData) * amount, &data[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
-	delete[] instancingData;
-
-	blocksCountRender = amount;
+void BlockRenderer::RemoveChunk(int x, int z)
+{
+	glDeleteBuffers(1, &chunkInstanceBuffers.at(std::make_pair(x, z)).gfxBuffer);
+	chunkInstanceBuffers.erase(std::make_pair(x, z));
 }
