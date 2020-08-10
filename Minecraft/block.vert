@@ -16,14 +16,22 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+// To do: use the rotationY cleverly to rotate the block
+// using the instancingDataPos.w
+mat4 rotationY(in float angle) {
+	return mat4(cos(angle),		0,		sin(angle),	0,
+			 			0,		1.0,			 0,	0,
+				-sin(angle),	0,		cos(angle),	0,
+						0, 		0,				0,	1);
+}
+
 void main()
 {
     FragPos = vec3(model * vec4(aPos + instancingDataPos.xyz, 1.0));
     TexCoords = aTexCoords;
 
-
 	faces = instancingDataFaces;
-	face_id = int(aFaceId); // can be 0, 1, 2, 3
+	face_id = int(aFaceId) -1; // can be 0, 1, 2, 3
     
     gl_Position = projection * view * vec4(FragPos, 1.0);
 }

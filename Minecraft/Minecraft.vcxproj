@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BlockLoader.cpp" />
     <ClCompile Include="BlockRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
@@ -141,7 +142,9 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockLoader.h" />
     <ClInclude Include="BlockRenderer.h" />
+    <ClInclude Include="BufferBlockData.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="Engine.h" />
@@ -162,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="terrain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="blockdata.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

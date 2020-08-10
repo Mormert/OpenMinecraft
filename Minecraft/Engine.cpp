@@ -2,6 +2,7 @@
 
 #include "EngineStatus.h"
 
+#include "BlockLoader.h"
 #include "KeyboardEvents.h"
 #include "InputManager.h"
 
@@ -23,6 +24,8 @@ Engine::Engine()
 	
 	window->FpsModeCursor(true);
 	window->SetMainWindow();
+
+	BlockLoader::LoadBlocksFromFile("blockdata.txt");
 
 	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, CAM_FOV);
 

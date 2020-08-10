@@ -10,14 +10,17 @@ uniform sampler2D ourTexture;
 
 void main()
 {    
-	int x = int(faces[face_id]) / 16;
-	int y = int(faces[face_id]) % 16;
-	//int x = face_id / 16;
-	//int y = face_id % 16;
 
-	//FragColor = texture(ourTexture, TexCoords + vec2(float(x)/16.0,float(y)/16.0));
+
+
+
+	int x = int(faces[face_id]) % 16;
+	int y = int(faces[face_id]) / 16;
 
 	FragColor = texture(ourTexture, TexCoords + vec2(float(x)/16.0,float(y)/16.0));
 
-	
+	if(FragColor.w < 0.1)
+	{
+		discard;
+	}
 }

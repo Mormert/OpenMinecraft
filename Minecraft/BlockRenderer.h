@@ -2,13 +2,10 @@
 
 #include <glm/glm.hpp>
 
+#include "BufferBlockData.h"
+
 #include <boost/functional/hash.hpp>
 #include <unordered_map>
-
-struct BufferBlockData {
-	// x, y, z, rotation, face0_id, face1_id, face2_id, face3_id (faces should range 0 - 255)
-	float data[8];
-};
 
 class BlockRenderer
 {
@@ -19,7 +16,7 @@ public:
 
 	void RenderAllBufferedChunks();
 
-	void BufferChunk(int x, int z, BufferBlockData *data, unsigned int amount);
+	void BufferChunk(int x, int z, const BlockDataVector &blockDataVector);
 	void RemoveChunk(int x, int z);
 
 private:

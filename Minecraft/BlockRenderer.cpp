@@ -40,47 +40,47 @@ BlockRenderer::BlockRenderer()
 
 	constexpr float vertices[] = {
 		// Vertex position,		 Texture coordinates		// Face id
-		-0.5f, -0.5f, -0.5f,	 zero,		zero,			0.0f,
-		 0.5f, -0.5f, -0.5f,	 one,		zero,			0.0f,
-		 0.5f,  0.5f, -0.5f,	 one,		one,			0.0f,
-		 0.5f,  0.5f, -0.5f,	 one,		one,			0.0f,
-		-0.5f,  0.5f, -0.5f,	 zero,		one,			0.0f,
-		-0.5f, -0.5f, -0.5f,	 zero,		zero,			0.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f, // Front
+		 0.5f, -0.5f, -0.5f,	 zero,		one,			1.0f,
+		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,
+		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,
+		-0.5f,  0.5f, -0.5f,	 one,		zero,			1.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f,
 
-		-0.5f, -0.5f,  0.5f,	 zero,		zero,			1.0f,
-		 0.5f, -0.5f,  0.5f,	 one,		zero,			1.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			1.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			1.0f,
-		-0.5f,  0.5f,  0.5f,	 zero,		one,			1.0f,
-		-0.5f, -0.5f,  0.5f,	 zero,		zero,			1.0f,
+		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f, // Side
+		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
+		-0.5f,  0.5f,  0.5f,	 one,		zero,			4.0f,
+		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f,
 
-		-0.5f,  0.5f,  0.5f,	 zero,		zero,			2.0f,
-		-0.5f,  0.5f, -0.5f,	 one,		zero,			2.0f,
-		-0.5f, -0.5f, -0.5f,	 one,		one,			2.0f,
-		-0.5f, -0.5f, -0.5f,	 one,		one,			2.0f,
-		-0.5f, -0.5f,  0.5f,	 zero,		one,			2.0f,
-		-0.5f,  0.5f,  0.5f,	 zero,		zero,			2.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f, // Side
+		-0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
+		-0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
 
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			3.0f,
-		 0.5f,  0.5f, -0.5f,	 one,		zero,			3.0f,
-		 0.5f, -0.5f, -0.5f,	 one,		one,			3.0f,
-		 0.5f, -0.5f, -0.5f,	 one,		one,			3.0f,
-		 0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			3.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f, // Side
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
+		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
 
-		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f, // Bottom
 		 0.5f, -0.5f, -0.5f,	 one,		zero,			3.0f,
 		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
 		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
 		-0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,
 		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,
 
-		-0.5f,  0.5f, -0.5f,	 zero,		zero,			3.0f,
-		 0.5f,  0.5f, -0.5f,	 one,		zero,			3.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			3.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			3.0f,
-		-0.5f,  0.5f,  0.5f,	 zero,		one,			3.0f,
-		-0.5f,  0.5f, -0.5f,	 zero,		zero,			3.0f
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f, // Top
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			2.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		one,			2.0f,
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f
 	};
 
 	// Setup vertex array object
@@ -147,8 +147,11 @@ void BlockRenderer::RenderAllBufferedChunks()
 	}
 }
 
-void BlockRenderer::BufferChunk(int x, int z, BufferBlockData *data, unsigned int amount)
+void BlockRenderer::BufferChunk(int x, int z, const BlockDataVector &blockDataVector)
 {
+	if (blockDataVector.empty()) {
+		return;
+	}
 
 	std::unordered_map<std::pair<int, int>, BufferedChunk,
 		boost::hash<std::pair<int, int>>>::const_iterator got = chunkInstanceBuffers.find(std::make_pair(x,z));
@@ -156,13 +159,13 @@ void BlockRenderer::BufferChunk(int x, int z, BufferBlockData *data, unsigned in
 	// Has this chunk's buffers already been created?
 	if (got == chunkInstanceBuffers.end())
 	{
-		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, amount }));
+		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, blockDataVector.size() }));
 		glGenBuffers(1, &inserted.first->second.gfxBuffer);
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, chunkInstanceBuffers.at(std::make_pair(x, z)).gfxBuffer);
 	
-	glBufferData(GL_ARRAY_BUFFER, sizeof(BufferBlockData) * amount, &data[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BlockData) * blockDataVector.size(), &blockDataVector[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
