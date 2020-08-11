@@ -1,7 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
+#include "Camera.h"
 #include "BufferBlockData.h"
 
 #include <boost/functional/hash.hpp>
@@ -11,7 +10,7 @@ class BlockRenderer
 {
 public:
 
-	BlockRenderer();
+	BlockRenderer(const Camera &camera);
 	~BlockRenderer();
 
 	void RenderAllBufferedChunks();
@@ -26,6 +25,8 @@ private:
 		unsigned int gfxBuffer; // id on the GPU
 		unsigned int amount;	// amount of blocks
 	};
+
+	const Camera &mainCamera;
 
 	// Using boost hash function for <int, int> pair as a key for the map for direct access to chunks
 	std::unordered_map<std::pair<int,int>, BufferedChunk, boost::hash<std::pair<int, int>>> chunkInstanceBuffers;

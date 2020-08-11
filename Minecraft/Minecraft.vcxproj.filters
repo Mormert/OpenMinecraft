@@ -13,11 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\bindings">
+    <Filter Include="Thirdparty">
+      <UniqueIdentifier>{5de9697a-aa01-49fd-bacb-d89b7739ad60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\imgui_opengl_glfw">
       <UniqueIdentifier>{163ee932-50db-4e28-aa1f-a8af90eae536}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\bindings">
-      <UniqueIdentifier>{4ed765a9-0ad2-4ae8-8f61-377dbbbb6ca3}</UniqueIdentifier>
+    <Filter Include="Thirdparty\FastNoise">
+      <UniqueIdentifier>{1a2dae7f-d51d-4938-8bb3-d70bfde50c36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,10 +52,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_glfw.cpp">
-      <Filter>Source Files\bindings</Filter>
+      <Filter>Thirdparty\imgui_opengl_glfw</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_opengl3.cpp">
-      <Filter>Source Files\bindings</Filter>
+      <Filter>Thirdparty\imgui_opengl_glfw</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiRenderer.cpp">
       <Filter>Source Files</Filter>
@@ -70,6 +73,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlockLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FastNoise\FastNoise.cpp">
+      <Filter>Thirdparty\FastNoise</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,12 +104,6 @@
     <ClInclude Include="BlockRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="imgui_impl_glfw.h">
-      <Filter>Header Files\bindings</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_opengl3.h">
-      <Filter>Header Files\bindings</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,6 +123,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BlockLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Thirdparty\imgui_opengl_glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Thirdparty\imgui_opengl_glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="FastNoise\FastNoise.h">
+      <Filter>Thirdparty\FastNoise</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

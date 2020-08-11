@@ -4,9 +4,10 @@
 
 #include "stb_image.h"
 
+#include <cmath>
 #include <iostream>
 
-BlockRenderer::BlockRenderer()
+BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 {
 
 	// Setup texture
@@ -136,14 +137,20 @@ void BlockRenderer::RenderAllBufferedChunks()
 	glBindVertexArray(VAO);
 	for (auto bufferedChunk : chunkInstanceBuffers)
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
+		const int chunkX = bufferedChunk.first.first;
+		const int chunkZ = bufferedChunk.first.second;
 
-		// Change vertex attribute pointers to this instance buffer's data
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // x, y, z, rot
-		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float))); // 4 different texture coordinates
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		if (abs((chunkX*24) - mainCamera.Position.x) < 200.0f && abs((chunkZ*24) - mainCamera.Position.z) < 200.0f)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
 
-		glDrawArraysInstanced(GL_TRIANGLES, 0, 36, bufferedChunk.second.amount);
+			// Change vertex attribute pointers to this instance buffer's data
+			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // x, y, z, rot
+			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float))); // 4 different texture coordinates
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glDrawArraysInstanced(GL_TRIANGLES, 0, 36, bufferedChunk.second.amount);
+		}
 	}
 }
 

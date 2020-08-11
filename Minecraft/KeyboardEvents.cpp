@@ -15,6 +15,11 @@ void ProcessMovement()
 	Camera* camera = Camera::GetMainCamera();
 	float dt = static_cast<float>(EngineStatus::GetDeltaTime());
 
+	if (InputManager::GetKeyDown('Q'))
+	{
+		dt *= 25.0f;
+	}
+
 	if (InputManager::GetKeyDown('A'))
 	{
 		camera->ProcessKeyboard(CAMERA_LEFT, dt);

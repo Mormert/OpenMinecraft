@@ -16,17 +16,24 @@
 
 #include "Chunk.h"
 
-Renderer::Renderer(int scr_width, int scr_height, float camFovDegree)
+
+
+
+
+
+#include "WorldGenerator.h"
+
+Renderer::Renderer(int scr_width, int scr_height, const Camera &camera) : mainCamera{ camera }
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
 	blockShader = new Shader("block.vert", "block.frag");
-	blockRenderer = new BlockRenderer();
+	blockRenderer = new BlockRenderer(camera);
 
-	projFarClip = 100.0f;
+	projFarClip = 200.0f;
 	projNearClip = 0.1f;
-	projFovDegree = camFovDegree;
+	projFovDegree = 70.0f;
 	projRatio = static_cast<float>(scr_width) / static_cast<float>(scr_height);
 
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
@@ -37,26 +44,19 @@ Renderer::Renderer(int scr_width, int scr_height, float camFovDegree)
 
 	// Testing chunk system:
 
-	Chunk chunk{ 1,0 };
-	for (int y = 0; y < 10; y += 1)
+	WorldGenerator generator{ 531531 };
+
+	for (int i = -25; i < 25; i++)
 	{
-		for (int x = 0; x < 10; x += 1)
+		for (int j = -25; j < 25; j++)
 		{
-			for (int z = 0; z < 10; z += 1)
-			{
-				if (y == 9)
-				{
-					chunk.SetBlockLocal(x, y, z, 2);
-				}
-				else {
-					chunk.SetBlockLocal(x, y, z, 1);
-				}
-				
-			}
+			Chunk chunk{ i,j };
+			generator.GenerateChunk(chunk);
+			
+			chunk.GenerateBuffer();
+			blockRenderer->BufferChunk(i, j, chunk.GetBlockDataVector());
 		}
 	}
-	chunk.GenerateBuffer();
-	blockRenderer->BufferChunk(0, 0, chunk.GetBlockDataVector());
 
 }
 
@@ -79,13 +79,13 @@ void Renderer::SetAspectRatio(int w, int h)
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
 
-void Renderer::Render(const Camera &camera)
+void Renderer::Render()
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	blockShader->Use();
-	blockShader->SetMat4("view", camera.GetViewMatrix());
+	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
 
 	blockRenderer->RenderAllBufferedChunks();
 	

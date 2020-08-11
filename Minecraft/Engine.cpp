@@ -13,7 +13,6 @@
 const char*		WINDOW_TITLE	{ "Minecraft" };
 constexpr int	SCR_WIDTH		{ 1200 };
 constexpr int	SCR_HEIGHT		{ 1000 };
-constexpr float CAM_FOV			{ 45.0f };
 
 Engine::Engine()
 {
@@ -25,17 +24,19 @@ Engine::Engine()
 	window->FpsModeCursor(true);
 	window->SetMainWindow();
 
+	camera = new Camera();
+	camera->SetMainCamera();
+
 	BlockLoader::LoadBlocksFromFile("blockdata.txt");
 
-	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, CAM_FOV);
+	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, *camera);
 
 	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
 	InputManager::LinkWindow(window);
 
 	imGuiRenderer = new ImGuiRenderer(&window->GetNativeWindow());
 
-	camera = new Camera();
-	camera->SetMainCamera();
+
 }
 
 Engine::~Engine()
@@ -63,7 +64,7 @@ void Engine::Loop()
 
 		Update();
 
-		renderer->Render(*camera);
+		renderer->Render();
 		imGuiRenderer->Render();
 
 		CollectInput();

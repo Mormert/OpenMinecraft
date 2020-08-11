@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-constexpr unsigned int chunk_size{ 10 };
+constexpr int chunk_size{ 24 };
 
 class Chunk
 {
@@ -12,8 +12,10 @@ public:
 
 	Chunk(int chunkX, int chunkZ);
 
-	void SetBlockLocal(int x, int y, int z, uint8_t block_id);
-	void SetBlockGlobal(int chunkX, int chunkZ, int x, int y, int z, unsigned int block_id);
+	const int GetChunkX();
+	const int GetChunkZ();
+
+	void SetChunkBlock(int x, int y, int z, uint8_t block_id);
 
 	void GenerateBuffer();
 

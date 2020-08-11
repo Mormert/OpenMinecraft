@@ -12,7 +12,17 @@ Chunk::Chunk(int chunkX, int chunkZ)
 	chunk_z = chunkZ;
 }
 
-void Chunk::SetBlockLocal(int x, int y, int z, uint8_t block_id)
+const int Chunk::GetChunkX()
+{
+	return chunk_x;
+}
+
+const int Chunk::GetChunkZ()
+{
+	return chunk_z;
+}
+
+void Chunk::SetChunkBlock(int x, int y, int z, uint8_t block_id)
 {
 	assert(x >= 0 && x < chunk_size);
 	assert(y >= 0 && y < chunk_size);
@@ -20,17 +30,6 @@ void Chunk::SetBlockLocal(int x, int y, int z, uint8_t block_id)
 
 	blocks[x][y][z] = block_id;
 }
-
-void Chunk::SetBlockGlobal(int chunkX, int chunkZ, int globalX, int globalY, int globalZ, unsigned int block_id)
-{
-	const int localX = globalX - chunkX * chunk_size;
-	const int localZ = globalZ - chunkZ * chunk_size;
-
-	assert(localX >= 0, localX <= chunk_size, globalY >= 0, globalY <= chunk_size, localZ >= 0, localZ <= chunk_size);
-
-	blocks[localX][globalY][localZ] = block_id;
-}
-
 
 bool Chunk::IsBlockVisible(int x, int y, int z)
 {
@@ -62,15 +61,14 @@ void Chunk::GenerateBuffer()
 		{
 			for (int z = 0; z < chunk_size; z++)
 			{
-				
 				if (IsBlockVisible(x, y, z) && blocks[x][y][z] != 0) {
 
 					BlockFaceData blockFaceData = BlockLoader::GetBlockFaceData(blocks[x][y][z]);
 					blockDataVector.push_back(BlockData{
-					float(x + chunk_x * chunk_size),
+					float(x + chunk_size * chunk_x),
 					float(y),
-					float(z + chunk_z * chunk_size),
-					rand() % 359 + 1.0f, // rot
+					float(z + chunk_size * chunk_z),
+					0.0f, // rot
 					blockFaceData[0],
 					blockFaceData[1],
 					blockFaceData[2],
