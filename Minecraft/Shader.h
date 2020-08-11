@@ -11,6 +11,7 @@ public:
 	unsigned int ID;
 
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	~Shader();
 
 	void Use();
 

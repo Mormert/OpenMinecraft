@@ -22,6 +22,9 @@
     <Filter Include="Thirdparty\FastNoise">
       <UniqueIdentifier>{1a2dae7f-d51d-4938-8bb3-d70bfde50c36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{e566a05c-5ff6-4aff-98d6-959f5612f855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="WorldGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -137,13 +143,22 @@
     <ClInclude Include="WorldGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="block.frag">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="block.vert">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="block.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

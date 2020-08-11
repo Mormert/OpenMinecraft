@@ -29,9 +29,10 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera) : mainCa
 	glEnable(GL_MULTISAMPLE);
 
 	blockShader = new Shader("block.vert", "block.frag");
+	skybox = new Skybox("skybox.vert", "skybox.frag");
 	blockRenderer = new BlockRenderer(camera);
 
-	projFarClip = 200.0f;
+	projFarClip = 325.0f;
 	projNearClip = 0.1f;
 	projFovDegree = 70.0f;
 	projRatio = static_cast<float>(scr_width) / static_cast<float>(scr_height);
@@ -46,9 +47,9 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera) : mainCa
 
 	WorldGenerator generator{ 531531 };
 
-	for (int i = -25; i < 25; i++)
+	for (int i = -8; i < 8; i++)
 	{
-		for (int j = -25; j < 25; j++)
+		for (int j = -8; j < 8; j++)
 		{
 			Chunk chunk{ i,j };
 			generator.GenerateChunk(chunk);
@@ -84,6 +85,8 @@ void Renderer::Render()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
+	skybox->Render();
+
 	blockShader->Use();
 	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
 

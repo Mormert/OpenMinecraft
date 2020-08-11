@@ -138,6 +138,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="ImGuiRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -160,12 +161,15 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ImGuiRenderer.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WorldGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="block.frag" />
     <None Include="block.vert" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="terrain.png" />

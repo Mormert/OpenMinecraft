@@ -5,6 +5,7 @@
 #include "Camera.h"
 
 #include "BlockRenderer.h"
+#include "Skybox.h"
 
 class Renderer
 {
@@ -23,6 +24,7 @@ private:
 	const Camera& mainCamera;
 
 	Shader* blockShader;
+	Skybox* skybox;
 	BlockRenderer* blockRenderer;
 
 	float projRatio;
