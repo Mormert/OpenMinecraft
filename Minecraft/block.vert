@@ -1,7 +1,7 @@
 #version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aTexCoords;
-layout (location = 2) in float aFaceId;
+layout (location = 2) in vec2 aFaceId_FaceShadow;
 
 layout (location = 3) in vec4 instancingDataPos; // x, y, z, rot
 layout (location = 4) in vec4 instancingDataFaces; // front, top, bottom, side, side, side
@@ -9,6 +9,7 @@ layout (location = 4) in vec4 instancingDataFaces; // front, top, bottom, side, 
 out vec3 FragPos;
 out vec2 TexCoords;
 
+out float shadowStrength;
 flat out int face_id;
 out vec4 faces;
 
@@ -31,7 +32,8 @@ void main()
     TexCoords = aTexCoords;
 
 	faces = instancingDataFaces;
-	face_id = int(aFaceId) -1; // can be 0, 1, 2, 3
+	face_id = int(aFaceId_FaceShadow.x) -1; // can be 0, 1, 2, 3
+	shadowStrength = aFaceId_FaceShadow.y;
     
     gl_Position = projection * view * vec4(FragPos, 1.0);
 }

@@ -38,50 +38,56 @@ BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 	constexpr float textureBias = 0.0005f; // Used to prevent sampling from the tiles next to current tile
 	constexpr float one = (1.0f / 16.0f) - textureBias;
 	constexpr float zero = 0.0f + textureBias;
+	constexpr float sideShadowEast{ 0.9 };
+	constexpr float sideShadowWest{ 0.3f };
+	constexpr float sideShadow{ 0.4f };
+	constexpr float topShadow{ 1.0f };
+	constexpr float bottomShadow{ 0.25f };
+
 
 	constexpr float vertices[] = {
 		// Vertex position,		 Texture coordinates		// Face id
-		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f, // Front
-		 0.5f, -0.5f, -0.5f,	 zero,		one,			1.0f,
-		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,
-		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,
-		-0.5f,  0.5f, -0.5f,	 one,		zero,			1.0f,
-		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f, 		sideShadowEast, // Front
+		 0.5f, -0.5f, -0.5f,	 zero,		one,			1.0f,		sideShadowEast,
+		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,		sideShadowEast,
+		 0.5f,  0.5f, -0.5f,	 zero,		zero,			1.0f,		sideShadowEast,
+		-0.5f,  0.5f, -0.5f,	 one,		zero,			1.0f,		sideShadowEast,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			1.0f,		sideShadowEast,
 
-		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f, // Side
-		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
-		-0.5f,  0.5f,  0.5f,	 one,		zero,			4.0f,
-		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f,
+		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f,		sideShadowWest, // Side
+		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,		sideShadowWest,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadowWest,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadowWest,
+		-0.5f,  0.5f,  0.5f,	 one,		zero,			4.0f,		sideShadowWest,
+		-0.5f, -0.5f,  0.5f,	 one,		one,			4.0f,		sideShadowWest,
 
-		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f, // Side
-		-0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,
-		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
-		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
-		-0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
-		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadow, // Side
+		-0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,		sideShadow,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,		sideShadow,
+		-0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,		sideShadow,
+		-0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,		sideShadow,
+		-0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadow,
 
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f, // Side
-		 0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,
-		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
-		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,
-		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,
-		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadow, // Side
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			4.0f,		sideShadow,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,		sideShadow,
+		 0.5f, -0.5f, -0.5f,	 one,		one,			4.0f,		sideShadow,
+		 0.5f, -0.5f,  0.5f,	 zero,		one,			4.0f,		sideShadow,
+		 0.5f,  0.5f,  0.5f,	 zero,		zero,			4.0f,		sideShadow,
 
-		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f, // Bottom
-		 0.5f, -0.5f, -0.5f,	 one,		zero,			3.0f,
-		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
-		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,
-		-0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,
-		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,		bottomShadow, // Bottom
+		 0.5f, -0.5f, -0.5f,	 one,		zero,			3.0f,		bottomShadow,
+		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,		bottomShadow,
+		 0.5f, -0.5f,  0.5f,	 one,		one,			3.0f,		bottomShadow,
+		-0.5f, -0.5f,  0.5f,	 zero,		one,			3.0f,		bottomShadow,
+		-0.5f, -0.5f, -0.5f,	 zero,		zero,			3.0f,		bottomShadow,
 
-		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f, // Top
-		 0.5f,  0.5f, -0.5f,	 one,		zero,			2.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,
-		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,
-		-0.5f,  0.5f,  0.5f,	 zero,		one,			2.0f,
-		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f,		topShadow, // Top
+		 0.5f,  0.5f, -0.5f,	 one,		zero,			2.0f,		topShadow,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,		topShadow,
+		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,		topShadow,
+		-0.5f,  0.5f,  0.5f,	 zero,		one,			2.0f,		topShadow,
+		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f,		topShadow
 	};
 
 	// Setup vertex array object
@@ -94,15 +100,15 @@ BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Vertex position attribute x, y, z
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// Texture coords attribute u, v
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
 	// Face id (works just like normal vectors but takes less space)
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
