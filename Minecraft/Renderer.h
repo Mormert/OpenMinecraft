@@ -31,5 +31,7 @@ private:
 	float projNearClip;
 	float projFarClip;
 	float projFovDegree;
+
+	int screenW, screenH;
 };
 

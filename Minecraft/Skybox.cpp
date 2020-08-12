@@ -7,13 +7,13 @@ Skybox::Skybox(const char* vertexShader, const char* fragmentShader)
 	shader = new Shader(vertexShader, fragmentShader);
 
 
-	constexpr float vertices[] = {
-		-1.0f,-1.0f, // triangle 1
-		1.0f, -1.0f,
-		1.0f, 1.0f,
-		1.0f,1.0f, // triangle 2
-		-1.0f, 1.0f,
-		-1.0f, -1.0f
+	constexpr float vertices[] = { // Screen quad
+		-1.0f,	-1.0f,
+		1.0f,	-1.0f,
+		1.0f,	1.0f,
+		1.0f,	1.0f,
+		-1.0f,	1.0f,
+		-1.0f,	-1.0f
 	};
 
 	glGenVertexArrays(1, &VAO);
@@ -33,12 +33,13 @@ Skybox::~Skybox()
 	delete shader;
 }
 
-void Skybox::Render()
+void Skybox::Render(const glm::vec3 &cameraDirection, int screenWidth, int screenHeight)
 {
-
 	glDisable(GL_DEPTH_TEST);
 
 	shader->Use();
+	shader->SetVec3("camdir", cameraDirection);
+	shader->SetVec2("resolution", glm::vec2{ static_cast<float>(screenWidth), static_cast<float>(screenHeight) });
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);

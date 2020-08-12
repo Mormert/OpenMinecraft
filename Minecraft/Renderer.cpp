@@ -23,7 +23,8 @@
 
 #include "WorldGenerator.h"
 
-Renderer::Renderer(int scr_width, int scr_height, const Camera &camera) : mainCamera{ camera }
+Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
+		: mainCamera{ camera }, screenW{scr_width}, screenH{scr_height}
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -76,6 +77,9 @@ void Renderer::SetPerspective(float FovDegree, float ratio, float nearClip, floa
 
 void Renderer::SetAspectRatio(int w, int h)
 {
+	screenW = w;
+	screenH = h;
+
 	projRatio = static_cast<float>(w) / static_cast<float>(h);
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 }
@@ -85,7 +89,7 @@ void Renderer::Render()
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	skybox->Render();
+	skybox->Render(mainCamera.Front, screenW, screenH);
 
 	blockShader->Use();
 	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
