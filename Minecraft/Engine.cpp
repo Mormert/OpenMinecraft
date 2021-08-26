@@ -14,41 +14,30 @@ const char*		WINDOW_TITLE	{ "Minecraft" };
 constexpr int	SCR_WIDTH		{ 1200 };
 constexpr int	SCR_HEIGHT		{ 1000 };
 
-Engine::Engine()
+Engine::Engine() :
+	window			{ SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE },
+	renderer		{ SCR_WIDTH, SCR_HEIGHT, camera },
+	imGuiRenderer	{ &window.GetNativeWindow() },
+	game			{ renderer.GetBlockRenderer() }
 {
-	window = new Window(SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE);
-	window->SetResizeWindowEvent(InputManager::ResizeWindowEvent);
-	window->SetKeyPressedEvent(InputManager::KeyPressedEvent);
-	window->SetKeyReleasedEvent(InputManager::KeyReleasedEvent);
-	
-	window->FpsModeCursor(true);
-	window->SetMainWindow();
 
-	camera = new Camera();
-	camera->SetMainCamera();
+	window.SetResizeWindowEvent(InputManager::ResizeWindowEvent);
+	window.SetKeyPressedEvent(InputManager::KeyPressedEvent);
+	window.SetKeyReleasedEvent(InputManager::KeyReleasedEvent);
+	window.FpsModeCursor(true);
+	window.SetMainWindow();
 
-	BlockLoader::LoadBlocksFromFile("blockdata.txt");
+	InputManager::AddResizeWindowCallback(&renderer, &Renderer::SetAspectRatio);
+	InputManager::LinkWindow(&window);
 
-	renderer = new Renderer(SCR_WIDTH, SCR_HEIGHT, *camera);
-
-	InputManager::AddResizeWindowCallback(renderer, &Renderer::SetAspectRatio);
-	InputManager::LinkWindow(window);
-
-	imGuiRenderer = new ImGuiRenderer(&window->GetNativeWindow());
-
-
-}
-
-Engine::~Engine()
-{
-	delete imGuiRenderer;
-	delete renderer;
-	delete window;
-	delete camera;
+	camera.SetMainCamera();
 }
 
 void Engine::Run()
 {
+	
+	std::cout << "tjoo \n heyyy \n looool";
+
 	running = true;
 	Loop();
 }
@@ -57,6 +46,7 @@ void Engine::Loop()
 {
 	while (running)
 	{
+
 		EngineStatus::currentFrame = glfwGetTime();
 		EngineStatus::deltaTime = EngineStatus::currentFrame - EngineStatus::lastFrame;
 		EngineStatus::lastFrame = EngineStatus::currentFrame;
@@ -64,14 +54,14 @@ void Engine::Loop()
 
 		Update();
 
-		renderer->Render();
-		imGuiRenderer->Render();
+		renderer.Render();
+		imGuiRenderer.Render();
 
 		CollectInput();
 
-		window->SwapBuffers();
+		window.SwapBuffers();
 		
-		running = !window->ShouldClose();
+		running = !window.ShouldClose();
 	}
 }
 
@@ -79,11 +69,11 @@ void Engine::CollectInput()
 {
 	InputManager::FlushKeyPresses();
 	InputManager::UpdateLastMousePosition();
-	window->PollEvents();
+	window.PollEvents();
 }
 
 void Engine::Update()
 {
 	KeyboardEvents::ProcessKeyboardEvents();
-
+	game.Update(EngineStatus::deltaTime);
 }

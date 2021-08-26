@@ -13,16 +13,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
-#include "Chunk.h"
-
-
-
-
-
-
-#include "WorldGenerator.h"
-
 Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 		: mainCamera{ camera }, screenW{scr_width}, screenH{scr_height}
 {
@@ -44,28 +34,17 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
 	blockShader->SetMat4("projection", projection);
 
-	// Testing chunk system:
-
-	WorldGenerator generator{ 531531 };
-
-	for (int i = -8; i < 8; i++)
-	{
-		for (int j = -8; j < 8; j++)
-		{
-			Chunk chunk{ i,j };
-			generator.GenerateChunk(chunk);
-			
-			chunk.GenerateBuffer();
-			blockRenderer->BufferChunk(i, j, chunk.GetBlockDataVector());
-		}
-	}
-
 }
 
 Renderer::~Renderer()
 {
 	delete blockRenderer;
 	delete blockShader;
+}
+
+BlockRenderer &Renderer::GetBlockRenderer()
+{
+	return *blockRenderer;
 }
 
 void Renderer::SetPerspective(float FovDegree, float ratio, float nearClip, float farClip)

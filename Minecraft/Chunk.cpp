@@ -31,6 +31,11 @@ void Chunk::SetChunkBlock(int x, int y, int z, uint8_t block_id)
 	blocks[x][y][z] = block_id;
 }
 
+uint8_t Chunk::GetBlock(int x, int y, int z)
+{
+	return blocks[x][y][z];
+}
+
 bool Chunk::IsBlockVisible(int x, int y, int z)
 {
 	if (x == (chunk_size-1) || x == 0
@@ -72,7 +77,7 @@ void Chunk::GenerateBuffer()
 					blockFaceData[0],
 					blockFaceData[1],
 					blockFaceData[2],
-					blockFaceData[3]
+					blockFaceData[3],
 						});
 				}
 			}

@@ -15,7 +15,9 @@ public:
 	const int GetChunkX();
 	const int GetChunkZ();
 
+
 	void SetChunkBlock(int x, int y, int z, uint8_t block_id);
+	uint8_t GetBlock(int x, int y, int z);
 
 	void GenerateBuffer();
 

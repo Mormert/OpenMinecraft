@@ -4,12 +4,12 @@
 #include "Renderer.h"
 #include "ImGuiRenderer.h"
 #include "Camera.h"
+#include "Game.h"
 
 class Engine
 {
 public:
 	Engine();
-	~Engine();
 	void Run();
 	
 private:
@@ -21,8 +21,9 @@ private:
 
 	bool running{ false };
 
-	Window* window;
-	Renderer* renderer;
-	ImGuiRenderer* imGuiRenderer;
-	Camera* camera;
+	Window window;
+	Renderer renderer;
+	ImGuiRenderer imGuiRenderer;
+	Camera camera;
+	Game game;
 };

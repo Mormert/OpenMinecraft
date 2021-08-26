@@ -18,6 +18,8 @@ public:
 	void SetPerspective(float FovDegree, float ratio, float nearClip, float farClip);
 	void SetAspectRatio(int w, int h);
 
+	BlockRenderer& GetBlockRenderer();
+
 private:
 	glm::mat4 projection;
 

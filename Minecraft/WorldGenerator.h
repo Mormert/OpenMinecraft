@@ -8,10 +8,9 @@ class WorldGenerator
 {
 public:
 	WorldGenerator(int seed);
-	~WorldGenerator();
 
-	void GenerateChunk(Chunk &chunk);
+	void GenerateChunk(Chunk *chunk);
 
 private:
-	FastNoise* noise;
+	FastNoise noise;
 };

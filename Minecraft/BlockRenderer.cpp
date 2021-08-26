@@ -88,6 +88,14 @@ BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 		 0.5f,  0.5f,  0.5f,	 one,		one,			2.0f,		topShadow,
 		-0.5f,  0.5f,  0.5f,	 zero,		one,			2.0f,		topShadow,
 		-0.5f,  0.5f, -0.5f,	 zero,		zero,			2.0f,		topShadow
+
+		/*0.5f,  0.5f, 0.5f,	 zero,		zero,			5.0f,		topShadow, // Flower
+		0.5f,  -0.5f,  0.5f,	 one,		zero,			5.0f,		topShadow,
+		-0.5f,  0.5f,  -0.5f,	 one,		one,			5.0f,		topShadow,
+		-0.5f,  0.5f,  -0.5f,	 zero,		zero,			5.0f,		topShadow,
+		-0.5f,  -0.5f,  -0.5f,	 one,		zero,			5.0f,		topShadow,
+		0.5f,  -0.5f,  0.5f,	 one,		one,			5.0f,		topShadow,*/
+
 	};
 
 	// Setup vertex array object
@@ -107,7 +115,7 @@ BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	// Face id (works just like normal vectors but takes less space)
+	// Face id and face shadow (works just like normal vectors but takes less space)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
@@ -146,13 +154,14 @@ void BlockRenderer::RenderAllBufferedChunks()
 		const int chunkX = bufferedChunk.first.first;
 		const int chunkZ = bufferedChunk.first.second;
 
+		// Note hardcoded chunk size 24
 		if (abs((chunkX*24) - mainCamera.Position.x) < 200.0f && abs((chunkZ*24) - mainCamera.Position.z) < 200.0f)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
 
 			// Change vertex attribute pointers to this instance buffer's data
 			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // x, y, z, rot
-			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float))); // 4 different texture coordinates
+			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float))); // 5 different texture coordinates
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			glDrawArraysInstanced(GL_TRIANGLES, 0, 36, bufferedChunk.second.amount);
