@@ -30,7 +30,7 @@ private:
 	bool IsBlockVisible(int x, int y, int z);
 
 	// Holds an id of the block
-	uint8_t blocks[chunk_size][chunk_size][chunk_size];
+	uint8_t blocks[chunk_size][chunk_size][chunk_size] = {0};
 	BlockDataVector blockDataVector;
 };
 

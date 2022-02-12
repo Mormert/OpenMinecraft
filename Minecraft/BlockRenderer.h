@@ -3,8 +3,8 @@
 #include "Camera.h"
 #include "BufferBlockData.h"
 
-#include <boost/functional/hash.hpp>
 #include <unordered_map>
+#include "PairHash.h"
 
 class BlockRenderer
 {
@@ -29,7 +29,7 @@ private:
 	const Camera &mainCamera;
 
 	// Using boost hash function for <int, int> pair as a key for the map for direct access to chunks
-	std::unordered_map<std::pair<int,int>, BufferedChunk, boost::hash<std::pair<int, int>>> chunkInstanceBuffers;
+	std::unordered_map<std::pair<int,int>, BufferedChunk, pair_hash> chunkInstanceBuffers;
 
 	unsigned int VAO, VBO, texture;
 

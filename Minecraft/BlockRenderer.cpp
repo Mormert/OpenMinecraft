@@ -22,7 +22,7 @@ BlockRenderer::BlockRenderer(const Camera &camera) : mainCamera{ camera }
 
 	// Load and generate the texture
 	int width, height, nrChannels;
-	unsigned char *data = stbi_load("terrain.png", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("data/terrain.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -175,13 +175,13 @@ void BlockRenderer::BufferChunk(int x, int z, const BlockDataVector &blockDataVe
 		return;
 	}
 
-	std::unordered_map<std::pair<int, int>, BufferedChunk,
-		boost::hash<std::pair<int, int>>>::const_iterator got = chunkInstanceBuffers.find(std::make_pair(x,z));
+	auto got = chunkInstanceBuffers.find(std::make_pair(x,z));
 
 	// Has this chunk's buffers already been created?
 	if (got == chunkInstanceBuffers.end())
 	{
-		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, blockDataVector.size() }));
+        const unsigned int blockDataVectorSize = blockDataVector.size();
+		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, blockDataVectorSize }));
 		glGenBuffers(1, &inserted.first->second.gfxBuffer);
 	}
 

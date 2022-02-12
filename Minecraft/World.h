@@ -5,7 +5,7 @@
 #include "WorldGenerator.h"
 #include "Chunk.h"
 
-#include <boost/functional/hash.hpp>
+#include "PairHash.h"
 #include <unordered_map>
 
 class World
@@ -21,7 +21,7 @@ public:
 	void SetBlockAtWorldPosition(int x, int y, int z, uint8_t block_id, bool updateGfxBuffer = true);
 
 private:
-	std::unordered_map<std::pair<int, int>, Chunk*, boost::hash<std::pair<int, int>>> worldChunks;
+	std::unordered_map<std::pair<int, int>, Chunk*, pair_hash> worldChunks;
 	WorldGenerator worldGenerator;
 
 	BlockRenderer &blockRenderer;

@@ -19,8 +19,8 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
-	blockShader = new Shader("block.vert", "block.frag");
-	skybox = new Skybox("skybox.vert", "skybox.frag");
+	blockShader = new Shader("data/block.vert", "data/block.frag");
+	skybox = new Skybox("data/skybox.vert", "data/skybox.frag");
 	blockRenderer = new BlockRenderer(camera);
 
 	projFarClip = 325.0f;

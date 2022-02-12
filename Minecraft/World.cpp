@@ -7,7 +7,7 @@ World::World(int seed, int initialChunksXY, BlockRenderer &_blockRenderer)
 	: worldGenerator{seed}, blockRenderer{_blockRenderer}
 {
 
-	BlockLoader::LoadBlocksFromFile("blockdata.txt");
+	BlockLoader::LoadBlocksFromFile("data/blockdata.txt");
 
 	for (int i = -initialChunksXY; i < initialChunksXY; i++)
 	{

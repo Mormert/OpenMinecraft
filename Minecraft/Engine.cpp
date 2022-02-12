@@ -35,9 +35,6 @@ Engine::Engine() :
 
 void Engine::Run()
 {
-	
-	std::cout << "tjoo \n heyyy \n looool";
-
 	running = true;
 	Loop();
 }
