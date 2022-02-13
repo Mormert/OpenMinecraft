@@ -11,8 +11,8 @@
 #include <iostream>
 
 const char*		WINDOW_TITLE	{ "Minecraft" };
-constexpr int	SCR_WIDTH		{ 1200 };
-constexpr int	SCR_HEIGHT		{ 1000 };
+constexpr int	SCR_WIDTH		{ 1920 };
+constexpr int	SCR_HEIGHT		{ 1080 };
 
 Engine::Engine() :
 	window			{ SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE },

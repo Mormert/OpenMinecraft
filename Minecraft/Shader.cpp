@@ -65,18 +65,19 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	unsigned int geometry;
 	if (geometryPath != nullptr)
 	{
-		const char * gShaderCode = geometryCode.c_str();
-		geometry = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geometry, 1, &gShaderCode, NULL);
-		glCompileShader(geometry);
-		CheckCompileErrors(geometry, "GEOMETRY");
+        geometryPath = nullptr; // This is not supported in OpenGL ES 3.0
+		//const char * gShaderCode = geometryCode.c_str();
+		//geometry = glCreateShader(GL_GEOMETRY_SHADER);
+		//glShaderSource(geometry, 1, &gShaderCode, NULL);
+		//glCompileShader(geometry);
+		//CheckCompileErrors(geometry, "GEOMETRY");
 	}
 	// shader Program
 	ID = glCreateProgram();
 	glAttachShader(ID, vertex);
 	glAttachShader(ID, fragment);
-	if (geometryPath != nullptr)
-		glAttachShader(ID, geometry);
+	//if (geometryPath != nullptr)   // This is not supported in OpenGL ES 3.0
+	//	glAttachShader(ID, geometry);
 	glLinkProgram(ID);
 	CheckCompileErrors(ID, "PROGRAM");
 	// delete the shaders as they're linked into our program now and no longer necessery

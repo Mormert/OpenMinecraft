@@ -23,7 +23,7 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 		: mainCamera{ camera }, screenW{scr_width}, screenH{scr_height}
 {
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
+	//glEnable(GL_MULTISAMPLE); // Not supported when going ES 3.0
 
 	blockShader = new Shader("data/block.vert", "data/block.frag");
 	skybox = new Skybox("data/skybox.vert", "data/skybox.frag");

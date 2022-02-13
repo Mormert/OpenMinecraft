@@ -1,11 +1,11 @@
-#version 330 core
-out vec4 FragColor;
+#version 300 es
+out highp vec4 FragColor;
 
-in vec2 TexCoords;
+in highp vec2 TexCoords;
 
-in float shadowStrength;
+in highp float shadowStrength;
 flat in int face_id;
-in vec4 faces;
+in highp vec4 faces;
 
 uniform sampler2D ourTexture;
 

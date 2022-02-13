@@ -45,8 +45,9 @@ if(BUILD_EMSCRIPTEN) # Build to Web...
 
     # set .html here so that we get .html output file.
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "index")
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 --shell-file ../shell_minimal.html --preload-file data")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 --shell-file ../shell_minimal.html --preload-file data")
 
 else() # Non-Web Build...
 

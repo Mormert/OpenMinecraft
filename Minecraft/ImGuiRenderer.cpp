@@ -14,26 +14,43 @@ void RenderDebugInfo();
 
 ImGuiRenderer::ImGuiRenderer(GLFWwindow *window)
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO &io = ImGui::GetIO();
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 330 core");
-	// Setup Dear ImGui style
-	ImGui::StyleColorsClassic();
+    // Currently only support ImGui on desktop.
+
+#ifdef __EMSCRIPTEN__
+#else
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    // Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 300 es");
+    // Setup Dear ImGui style
+    ImGui::StyleColorsClassic();
+
+#endif
+
 }
 
 ImGuiRenderer::~ImGuiRenderer()
 {
+    // Currently only support ImGui on desktop.
+
+#ifdef __EMSCRIPTEN__
+#else
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+#endif
 }
 
 void ImGuiRenderer::Render()
 {
 
+    // Currently only support ImGui on desktop.
+
+#ifdef __EMSCRIPTEN__
+#else
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -47,12 +64,17 @@ void ImGuiRenderer::Render()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+#endif
 }
 
 void RenderDebugInfo()
 {
-	
+
+    // Currently only support ImGui on desktop.
+
+#ifdef __EMSCRIPTEN__
+#else
+
 	constexpr ImGuiWindowFlags window_flags =
 		ImGuiWindowFlags_NoDecoration |
 		ImGuiWindowFlags_AlwaysAutoResize |
@@ -68,5 +90,5 @@ void RenderDebugInfo()
 		ImGui::Text("Last Released : %c (%d)", InputState::debugState.lastReleasedButton, InputState::debugState.lastReleasedButton);
 	}
 	ImGui::End();
-	
+#endif
 }

@@ -54,11 +54,11 @@ Window::Window(int width, int height, const char* title)
 		exit(1);
 	}
 
-	// Runs on OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+	// Runs on OpenGL ES 3.0
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	// To Enable MSAA
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
@@ -84,7 +84,7 @@ Window::Window(int width, int height, const char* title)
 
 #ifdef __EMSCRIPTEN__
 #else
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cerr << "ERROR: Failed to initialize GLAD\n";
 		exit(1);
