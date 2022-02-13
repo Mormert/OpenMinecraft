@@ -81,13 +81,17 @@ Window::Window(int width, int height, const char* title)
 
 
 	glfwMakeContextCurrent(glfwWindow);
+
+#ifdef __EMSCRIPTEN__
+#else
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cerr << "ERROR: Failed to initialize GLAD\n";
 		exit(1);
 	}
+#endif
 
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 	int w, h;
 	glfwGetFramebufferSize(glfwWindow, &w, &h);

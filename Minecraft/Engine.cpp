@@ -36,29 +36,23 @@ Engine::Engine() :
 void Engine::Run()
 {
 	running = true;
-	Loop();
+
+    engine = this;
+
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(main_loop, 0, true);
+#else
+    Loop();
+#endif
+
+
 }
 
 void Engine::Loop()
 {
 	while (running)
 	{
-
-		EngineStatus::currentFrame = glfwGetTime();
-		EngineStatus::deltaTime = EngineStatus::currentFrame - EngineStatus::lastFrame;
-		EngineStatus::lastFrame = EngineStatus::currentFrame;
-		EngineStatus::fps = static_cast<int>(1.0 / EngineStatus::deltaTime);
-
-		Update();
-
-		renderer.Render();
-		imGuiRenderer.Render();
-
-		CollectInput();
-
-		window.SwapBuffers();
-		
-		running = !window.ShouldClose();
+        MainLoop();
 	}
 }
 
@@ -73,4 +67,23 @@ void Engine::Update()
 {
 	KeyboardEvents::ProcessKeyboardEvents();
 	game.Update(EngineStatus::deltaTime);
+}
+
+void Engine::MainLoop() {
+
+    EngineStatus::currentFrame = glfwGetTime();
+    EngineStatus::deltaTime = EngineStatus::currentFrame - EngineStatus::lastFrame;
+    EngineStatus::lastFrame = EngineStatus::currentFrame;
+    EngineStatus::fps = static_cast<int>(1.0 / EngineStatus::deltaTime);
+
+    Update();
+
+    renderer.Render();
+    imGuiRenderer.Render();
+
+    CollectInput();
+
+    window.SwapBuffers();
+
+    running = !window.ShouldClose();
 }

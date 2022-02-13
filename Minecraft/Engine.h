@@ -11,10 +11,19 @@ class Engine
 public:
 	Engine();
 	void Run();
-	
+
+    static inline Engine* engine;
+
 private:
 
+    // Used for Emscripten...
+    static void main_loop()
+    {
+        Engine::engine->MainLoop();
+    }
+
 	void Loop();
+    void MainLoop();
 
 	void CollectInput();
 	void Update();
@@ -27,3 +36,5 @@ private:
 	Camera camera;
 	Game game;
 };
+
+
