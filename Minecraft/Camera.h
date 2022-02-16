@@ -16,7 +16,7 @@ enum Camera_Movement {
 // Default camera values
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
-const float SPEED = 2.5f;
+const float SPEED = 5.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
@@ -40,7 +40,12 @@ public:
 	float Zoom;
 
 	// constructor with vectors
-	Camera(glm::vec3 position = glm::vec3(0.0f, 50.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+	Camera(glm::vec3 position = glm::vec3(0.0f, 18.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+
+    glm::ivec3 GetIntegerWorldPos();
+    glm::ivec3 GetIntegerWorldPosOffsetted(glm::vec3 offset);
+
+    static glm::ivec3 GetIntegerWorldPosOffsetted(glm::vec3 pos, glm::vec3 offset);
 
 	// constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);

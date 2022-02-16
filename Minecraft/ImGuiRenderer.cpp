@@ -1,5 +1,6 @@
 #include "ImGuiRenderer.h"
 
+#include "World.h"
 #include "Camera.h"
 #include "InputState.h"
 #include "EngineStatus.h"
@@ -85,9 +86,14 @@ void RenderDebugInfo()
 	if (ImGui::Begin("Debug info", nullptr, window_flags))
 	{
 		ImGui::Text("FPS : %d (%f ms)", EngineStatus::GetFps(), EngineStatus::GetDeltaTime());
-		ImGui::Text("Pos   : %f, %f, %f", Camera::GetMainCamera()->Position.x, Camera::GetMainCamera()->Position.y, Camera::GetMainCamera()->Position.z);
+		ImGui::Text("Posf   : %f, %f, %f", Camera::GetMainCamera()->Position.x, Camera::GetMainCamera()->Position.y, Camera::GetMainCamera()->Position.z);
+		ImGui::Text("Posi   : %d, %d, %d", Camera::GetMainCamera()->GetIntegerWorldPos().x, Camera::GetMainCamera()->GetIntegerWorldPos().y, Camera::GetMainCamera()->GetIntegerWorldPos().z);
 		ImGui::Text("Last Pressed  : %c (%d)", InputState::debugState.lastPressedButton, InputState::debugState.lastPressedButton);
 		ImGui::Text("Last Released : %c (%d)", InputState::debugState.lastReleasedButton, InputState::debugState.lastReleasedButton);
+        auto pos = Camera::GetMainCamera()->GetIntegerWorldPosOffsetted(glm::vec3{0.5f, 0.5f, 0.5f});
+        ImGui::Text("Block Type : %d", World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z));
+        ImGui::Text("ChunkX : %d, ChunkZ : %d", World::g_world->chunkX, World::g_world->chunkZ);
+        ImGui::Text("localBlockX : %d, localBlockZ : %d", World::g_world->localBlockX, World::g_world->localBlockZ);
 	}
 	ImGui::End();
 #endif

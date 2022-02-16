@@ -128,3 +128,7 @@ void InputManager::FlushKeyPresses()
 	keysPressed.clear();
 	keysReleased.clear();
 }
+
+bool InputManager::GetShiftDown() {
+    return glfwGetKey(&window->GetNativeWindow(), GLFW_KEY_LEFT_SHIFT);
+}

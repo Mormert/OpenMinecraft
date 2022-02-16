@@ -185,13 +185,27 @@ void BlockRenderer::BufferChunk(int x, int z, const BlockDataVector &blockDataVe
 
 	auto got = chunkInstanceBuffers.find(std::make_pair(x,z));
 
-	// Has this chunk's buffers already been created?
+	// Has this chunk's buffers not already been created?
 	if (got == chunkInstanceBuffers.end())
 	{
         const unsigned int blockDataVectorSize = blockDataVector.size();
 		auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, blockDataVectorSize }));
 		glGenBuffers(1, &inserted.first->second.gfxBuffer);
-	}
+	}else
+    {
+
+        // Note: we delete the old buffer and create a new one here.
+        // TOTO: Fix this, and re-use the old buffer somehow.
+        // This was a fix to solve the problem when the amount of blocks in the
+        // chunk changes, for example when a block is replaced by air.
+
+        glDeleteBuffers(1, &chunkInstanceBuffers.at(std::make_pair(x, z)).gfxBuffer);
+        chunkInstanceBuffers.erase(std::make_pair(x, z));
+
+        const unsigned int blockDataVectorSize = blockDataVector.size();
+        auto inserted = chunkInstanceBuffers.insert(std::make_pair(std::make_pair(x, z), BufferedChunk{ 0, blockDataVectorSize }));
+        glGenBuffers(1, &inserted.first->second.gfxBuffer);
+    }
 
 	glBindBuffer(GL_ARRAY_BUFFER, chunkInstanceBuffers.at(std::make_pair(x, z)).gfxBuffer);
 	

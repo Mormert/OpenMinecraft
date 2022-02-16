@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-const char*		WINDOW_TITLE	{ "Minecraft" };
+const char*		WINDOW_TITLE	{ "Open Minecraft" };
 constexpr int	SCR_WIDTH		{ 1920 };
 constexpr int	SCR_HEIGHT		{ 1080 };
 

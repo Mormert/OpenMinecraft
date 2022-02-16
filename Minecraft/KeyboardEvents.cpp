@@ -15,9 +15,9 @@ void ProcessMovement()
 	Camera* camera = Camera::GetMainCamera();
 	float dt = static_cast<float>(EngineStatus::GetDeltaTime());
 
-	if (InputManager::GetKeyDown('Q'))
+	if (InputManager::GetShiftDown())
 	{
-		dt *= 25.0f;
+		dt *= 3.5f;
 	}
 
 	if (InputManager::GetKeyDown('A'))
@@ -46,7 +46,7 @@ void ProcessMovement()
 
 void ProcessInputState()
 {
-	if (InputManager::GetKeyPressed(static_cast<char>(96))) // '§'
+	if (InputManager::GetKeyPressed(static_cast<char>(96))) // 'ï¿½'
 	{
 		InputState::state.showDebugInfo = !InputState::state.showDebugInfo;
 	}

@@ -14,6 +14,8 @@ public:
 	static bool GetKeyReleased(char key);
 	static bool GetKeyDown(char key);
 
+    static bool GetShiftDown();
+
 	static int GetMouseX();
 	static int GetMouseY();
 
