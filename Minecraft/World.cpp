@@ -11,20 +11,25 @@ World::World(int seed, int initialChunksXY, BlockRenderer &_blockRenderer)
 
 	BlockLoader::LoadBlocksFromFile("data/blockdata.txt");
 
+    // Generate all chunks first, because a chunk generation may edit a neighbouring chunk
 	for (int i = -initialChunksXY; i < initialChunksXY; i++)
 	{
 		for (int j = -initialChunksXY; j < initialChunksXY; j++)
 		{
 			Chunk *chunk = new Chunk(i, j);
 			auto insertedChunk = worldChunks.insert(std::make_pair(std::make_pair(i, j), chunk));
-
-			// Generate terrain
-			worldGenerator.GenerateChunk(chunk);
-
-			// Create GFX buffer
-			chunk->GenerateBuffer();
 		}
 	}
+
+    for(auto&& chunk : worldChunks)
+    {
+        // Generate terrain
+        worldGenerator.GenerateChunk(chunk.second);
+
+        // Create GFX buffer
+        chunk.second->GenerateBuffer();
+    }
+
 }
 
 World::~World()
@@ -65,39 +70,53 @@ int World::GetBlockAtWorldPosition(int x, int y, int z)
         return 0;
     }
 
-	try {
-		Chunk *chunk = worldChunks.at(chunkCoords);
-		return chunk->GetBlock(chunkSpaceCoords.x, chunkSpaceCoords.y, chunkSpaceCoords.z);
-	}
-	catch(const std::out_of_range e){
-		return -1; // not found
-	}
+    Chunk* chunk;
+
+    auto iter = worldChunks.find(chunkCoords);
+
+    if(iter != worldChunks.end())
+    {
+        chunk = iter->second;
+    }else{
+        return -1;
+    }
+
+    return chunk->GetBlock(chunkSpaceCoords.x, chunkSpaceCoords.y, chunkSpaceCoords.z);
 }
 
 Chunk* World::SetBlockAtWorldPosition(int x, int y, int z, uint8_t block_id, bool updateGfxBuffer)
 {
+    if(y >= 24)
+    {
+        return nullptr;
+    }
+
     glm::ivec3 chunkSpaceCoords;
     std::pair<int,int> chunkCoords;
 
     std::tie(chunkSpaceCoords, chunkCoords) = GetLocalChunkCoordinates(x,y,z);
 
-	try {
-		Chunk *chunk = worldChunks.at(chunkCoords);
+    Chunk* chunk = nullptr;
 
-		chunk->SetChunkBlock(chunkSpaceCoords.x, chunkSpaceCoords.y, chunkSpaceCoords.z, block_id);
+    auto iter = worldChunks.find(chunkCoords);
 
-		if (updateGfxBuffer)
-		{
-			chunk->GenerateBuffer();
-			blockRenderer.BufferChunk(chunkX, chunkZ, chunk->GetBlockDataVector());
-		}
-
-        return chunk;
-	}
-	catch (const std::out_of_range e) {
-		std::cerr << "Chunk for position " << x << ", " << y << ", " << z << " not generated...  " << e.what() << "\n";
+    if(iter != worldChunks.end())
+    {
+        chunk = worldChunks.at(chunkCoords);
+    }else
+    {
         return nullptr;
-	}
+    }
+
+    chunk->SetChunkBlock(chunkSpaceCoords.x, chunkSpaceCoords.y, chunkSpaceCoords.z, block_id);
+
+    if (updateGfxBuffer)
+    {
+        chunk->GenerateBuffer();
+        blockRenderer.BufferChunk(chunkX, chunkZ, chunk->GetBlockDataVector());
+    }
+
+    return chunk;
 }
 
 std::tuple<glm::ivec3, std::pair<int,int>> World::GetLocalChunkCoordinates(int x, int y, int z) {

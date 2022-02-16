@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include "World.h"
+#include <iostream>
 
 Camera *Camera::mainCamera{nullptr};
 
@@ -47,6 +48,10 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime) {
         newPos -= Right * velocity;
     if (direction == CAMERA_RIGHT)
         newPos += Right * velocity;
+    if(direction == CAMERA_UP)
+        newPos += glm::vec3{0.f, 1.f, 0.f} * velocity;
+    if(direction == CAMERA_DOWN)
+        newPos += glm::vec3{0.f, -1.f, 0.f} * velocity;
 
     if (World::g_world) {
 
@@ -236,5 +241,47 @@ glm::ivec3 Camera::GetIntegerWorldPosOffsetted(glm::vec3 pos, glm::vec3 offset) 
     }
 
     return glm::ivec3{intX, intY, intZ};
+}
+
+void Camera::ProcessMouseLeftClick() {
+    for(float i = 0.f; i < 10.f; i+= 1.0f)
+    {
+        auto pos = GetIntegerWorldPosOffsetted(glm::vec3{0.5f, 0.5f, 0.5f} + Front * 0.25f * i);
+        auto bt = World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z);
+        if(bt != 0 && bt != -1)
+        {
+            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 0, true);
+            break;
+        }
+    }
+}
+
+void Camera::ProcessMouseRightClick() {
+    float i;
+    for(i = 0.f; i < 10.f; i += 1.0f)
+    {
+        auto pos = GetIntegerWorldPosOffsetted(glm::vec3{0.5f, 0.5f, 0.5f} + Front * 0.25f * i);
+        auto bt = World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z);
+        if(bt != 0 && bt != -1)
+        {
+            break;
+        }
+    }
+
+    if(i < 10.f)
+    {
+        return;
+    }
+
+    for(i; i > 0.f; i -= 1.0f)
+    {
+        auto pos = GetIntegerWorldPosOffsetted(glm::vec3{0.5f, 0.5f, 0.5f} + Front * 0.25f * i);
+        auto bt = World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z);
+        if(bt == 0)
+        {
+            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 3, true);
+            break;
+        }
+    }
 }
 

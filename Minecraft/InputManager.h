@@ -19,6 +19,8 @@ public:
 	static int GetMouseX();
 	static int GetMouseY();
 
+    static bool GetLMBClicked();
+
 	static float GetMouseXDelta();
 	static float GetMouseYDelta();
 
@@ -45,6 +47,12 @@ public:
 		using namespace std::placeholders;
 		resizeWindowCallbacks.emplace_back(std::bind(mf, object, _1, _2));
 	}
+
+    static bool GetSpaceDown();
+
+    static bool GetCTRLDown();
+
+    static bool GetRMBClicked();
 
 private:
 	static std::vector<char> keysPressed;

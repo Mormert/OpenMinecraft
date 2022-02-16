@@ -163,7 +163,7 @@ void BlockRenderer::RenderAllBufferedChunks()
 		const int chunkZ = bufferedChunk.first.second;
 
 		// Note hardcoded chunk size 24
-		if (abs((chunkX*24) - mainCamera.Position.x) < 200.0f && abs((chunkZ*24) - mainCamera.Position.z) < 200.0f)
+		if (abs((chunkX*24) - mainCamera.Position.x) < 100.0f && abs((chunkZ*24) - mainCamera.Position.z) < 100.0f)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
 

@@ -132,3 +132,45 @@ void InputManager::FlushKeyPresses()
 bool InputManager::GetShiftDown() {
     return glfwGetKey(&window->GetNativeWindow(), GLFW_KEY_LEFT_SHIFT);
 }
+
+bool InputManager::GetLMBClicked() {
+    static int lastFramePress = 0;
+    auto state = glfwGetMouseButton(&window->GetNativeWindow(), GLFW_MOUSE_BUTTON_LEFT);
+
+    bool clicked = false;
+
+    if(lastFramePress && state == GLFW_RELEASE)
+    {
+        clicked = true;
+    }
+
+    lastFramePress = state;
+
+    return clicked;
+}
+
+bool InputManager::GetRMBClicked() {
+    static int lastFramePress = 0;
+    auto state = glfwGetMouseButton(&window->GetNativeWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+
+    bool clicked = false;
+
+    if(lastFramePress && state == GLFW_RELEASE)
+    {
+        clicked = true;
+    }
+
+    lastFramePress = state;
+
+    return clicked;
+}
+
+bool InputManager::GetSpaceDown() {
+    return glfwGetKey(&window->GetNativeWindow(), GLFW_KEY_SPACE);
+}
+
+bool InputManager::GetCTRLDown() {
+    return glfwGetKey(&window->GetNativeWindow(), GLFW_KEY_LEFT_CONTROL);
+}
+
+

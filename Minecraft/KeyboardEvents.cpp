@@ -40,6 +40,16 @@ void ProcessMovement()
 		camera->ProcessKeyboard(CAMERA_BACKWARD, dt);
 	}
 
+    if(InputManager::GetSpaceDown())
+    {
+        camera->ProcessKeyboard(CAMERA_UP, dt);
+    }
+
+    if(InputManager::GetCTRLDown())
+    {
+        camera->ProcessKeyboard(CAMERA_DOWN, dt);
+    }
+
 	camera->ProcessMouseMovement(InputManager::GetMouseXDelta(),
 		InputManager::GetMouseYDelta());
 }
@@ -55,6 +65,16 @@ void ProcessInputState()
 		Window* window = Window::GetMainWindow();
 		window->FpsModeCursor(!window->fpsModeEnabled);
 	}
+    if(InputManager::GetLMBClicked())
+    {
+        Camera* camera = Camera::GetMainCamera();
+        camera->ProcessMouseLeftClick();
+    }
+    if(InputManager::GetRMBClicked())
+    {
+        Camera* camera = Camera::GetMainCamera();
+        camera->ProcessMouseRightClick();
+    }
 }
 
 void KeyboardEvents::ProcessKeyboardEvents()

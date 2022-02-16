@@ -25,7 +25,6 @@ add_executable(OpenMinecraft
         "InputState.cpp"
         "KeyboardEvents.cpp"
         "main.cpp"
-        "Player.cpp"
         "Renderer.cpp"
         "Shader.cpp"
         "Skybox.cpp"

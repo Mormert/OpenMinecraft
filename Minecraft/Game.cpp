@@ -5,7 +5,7 @@
 #include <future>
 
 Game::Game(BlockRenderer &_blockRenderer) :
-	world{ 1234, 32, _blockRenderer}
+	world{ rand(), 12, _blockRenderer}
 {
 
 	world.BufferChunksToBlockRenderer();
@@ -13,18 +13,11 @@ Game::Game(BlockRenderer &_blockRenderer) :
 
     std::set<Chunk*> chunksAffected;
 
-	for (int i = 0; i < 23; i++)
-	{
-		auto c = world.SetBlockAtWorldPosition(0, i, 0, 0);
-        chunksAffected.insert(c);
-	}
-
-
     for(int i = 25; i < 30 ; i++)
     {
-        for(int j = -20; j < 20; j++)
+        for(int j = 25; j < 30; j++)
         {
-            for(int k = 0; k < 24; k++)
+            for(int k = 3; k < 20; k++)
             {
                 auto c = world.SetBlockAtWorldPosition(i, k, j, 3, false);
                 chunksAffected.insert(c);
@@ -38,13 +31,6 @@ Game::Game(BlockRenderer &_blockRenderer) :
         _blockRenderer.BufferChunk(c->GetChunkX(), c->GetChunkZ(), c->GetBlockDataVector());
     }
 
-
-
-
-    //world.SetBlockAtWorldPosition(0, 0, 0, 0, true);
-
-
-	//std::cout << world.GetBlockAtWorldPosition(13371, 7, 5) << std::endl;
 }
 
 void Game::Update(float deltaTime)
