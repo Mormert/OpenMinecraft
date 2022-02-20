@@ -33,6 +33,8 @@ public:
 
 	static Window* GetMainWindow();
 
+    static void(*resizeEvent)(int, int);
+
 private:
 	GLFWwindow *glfwWindow;
 
@@ -45,8 +47,8 @@ private:
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    static void window_size_callback(GLFWwindow* window, int width, int height);
 
-	static void(*resizeEvent)(int, int);
 	static void(*keyPressedEvent)(char);
 	static void(*keyReleasedEvent)(char);
 

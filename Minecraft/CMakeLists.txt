@@ -37,7 +37,7 @@ add_executable(OpenMinecraft
         "PairHash.h")
 
 
-if(BUILD_EMSCRIPTEN) # Build to Web...
+if (BUILD_EMSCRIPTEN) # Build to Web...
 
     target_include_directories(OpenMinecraft SYSTEM PUBLIC
             "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/glm")
@@ -46,9 +46,14 @@ if(BUILD_EMSCRIPTEN) # Build to Web...
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
     set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "index")
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 --shell-file ../shell_minimal.html --preload-file data")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=cwrap --shell-file ../shell_fullscreen.html --preload-file data")
 
-else() # Non-Web Build...
+    #add_definitions("-s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
+    #add_definitions("-s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
+    #add_definitions("-s EXPORTED_FUNCTIONS='[\"_resize_canvas_js\",\"_main\"]'")
+    #set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s EXPORTED_RUNTIME_METHODS =['ccall','cwrap']" "-s EXPORTED_FUNCTIONS=['_resize_canvas_js','_main']")
+
+else () # Non-Web Build...
 
     # Compile also glad.c
     target_sources(OpenMinecraft PRIVATE "3rdparty/glad/glad.c")
@@ -65,9 +70,7 @@ else() # Non-Web Build...
             "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty"
             "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/glad"
             "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/glm")
-endif()
-
-
+endif ()
 
 
 FILE(COPY data DESTINATION ${PROJECT_BINARY_DIR})
