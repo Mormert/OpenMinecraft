@@ -8,8 +8,11 @@ Using Emscripten, Open Minecraft has a WebAssembly port. [Click here](https://op
 ### Terrain generation using the FastNoise C++ library.
 ![Terrain Generation](https://raw.githubusercontent.com/Mormert/OpenMinecraft/master/SCREENSHOT2.PNG)
 
+### Building and digging
+![Building](https://raw.githubusercontent.com/Mormert/OpenMinecraft/master/SCREENSHOT3.PNG)
+
 ### Insane amount of blocks rendering
-Rendering millions of blocks at an acceptable framerate using instanced rendering.
+Rendering millions of individual blocks at an acceptable framerate using instanced rendering.
 ![Block Rendering](https://raw.githubusercontent.com/Mormert/OpenMinecraft/master/SCREENSHOT.PNG)
 
 ### Dependencies & building
