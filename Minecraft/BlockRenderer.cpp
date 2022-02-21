@@ -171,7 +171,7 @@ void BlockRenderer::RenderAllBufferedChunks() {
         if (abs((chunkX * 24) - mainCamera.Position.x) < 350.0f &&
             abs((chunkZ * 24) - mainCamera.Position.z) < 350.0f) {
 
-            if (frustum.IsBoxVisible(glm::vec3{chunkX * 24, 0, chunkZ * 24},
+            if (frustum.IsBoxVisible(glm::vec3{chunkX * 24, -1, chunkZ * 24},
                                      glm::vec3{chunkX * 24 + 24, 24, chunkZ * 24 + 24})) {
                 glBindBuffer(GL_ARRAY_BUFFER, bufferedChunk.second.gfxBuffer);
 
