@@ -18,6 +18,8 @@ public:
 	void BufferChunk(int x, int z, const BlockDataVector &blockDataVector);
 	void RemoveChunk(int x, int z);
 
+    void SetProjectionMatrix(glm::mat4 p);
+
 private:
 
 	struct BufferedChunk
@@ -25,6 +27,8 @@ private:
 		unsigned int gfxBuffer; // id on the GPU
 		unsigned int amount;	// amount of blocks
 	};
+
+    glm::mat4 projectionMatrix;
 
 	const Camera &mainCamera;
 

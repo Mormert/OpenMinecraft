@@ -29,7 +29,7 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	skybox = new Skybox("data/skybox.vert", "data/skybox.frag");
 	blockRenderer = new BlockRenderer(camera);
 
-	projFarClip = 325.0f;
+	projFarClip = 375.0f;
 	projNearClip = 0.1f;
 	projFovDegree = 70.0f;
 	projRatio = static_cast<float>(scr_width) / static_cast<float>(scr_height);
@@ -58,6 +58,7 @@ void Renderer::SetPerspective(float FovDegree, float ratio, float nearClip, floa
 	projection = glm::mat4{ 1.0f };
 	projection = glm::perspective(glm::radians(FovDegree), ratio, nearClip, farClip);
 	blockShader->SetMat4("projection", projection);
+    blockRenderer->SetProjectionMatrix(projection);
 }
 
 void Renderer::SetAspectRatio(int w, int h)

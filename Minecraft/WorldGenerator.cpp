@@ -39,36 +39,60 @@ void WorldGenerator::GenerateChunk(Chunk *chunk) {
             if (height < 15) {
                 double val = (double) rand() / RAND_MAX;
                 if (val < 0.01) {
-                    // generate tree
-                    for (int i = 0; i < 5; i++) {
-                        chunk->SetChunkBlock(x, height + i, z, 21);
-                    }
-                    for (int i = -3; i < 3; i++) {
-                        for (int j = 0; j < 3; j++) {
-                            for (int k = -3; k < 3; k++) {
-                                // Use World class here, because we need the fact that we might change a neighbouring chunk.
-                                World::g_world->SetBlockAtWorldPosition(i + x + chunkX * chunk_size, height + j + 5,
-                                                                        k + z + chunkZ * chunk_size, 52, false);
-                            }
-                        }
-                    }
-                    for (int i = -2; i < 2; i++) {
-                        for (int j = -2; j < 2; j++) {
-
-                            World::g_world->SetBlockAtWorldPosition(i + x + chunkX * chunk_size, height + 3 + 5,
-                                                                    j + z + chunkZ * chunk_size, 52, false);
-                        }
-                    }
-                    for (int i = -1; i < 1; i++) {
-                        for (int j = -1; j < 1; j++) {
-
-                            World::g_world->SetBlockAtWorldPosition(i + x + chunkX * chunk_size, height + 3 + 5 + 1,
-                                                                    j + z + chunkZ * chunk_size, 52, false);
-                        }
-                    }
-
+                    GenerateTree(chunk, x, z, height);
                 }
             }
         }
     }
+}
+
+void WorldGenerator::GenerateTree(Chunk *chunk, int x, int z, int height) {
+
+    int chunkX = chunk->GetChunkX();
+    int chunkZ = chunk->GetChunkZ();
+
+    for (int i = 0; i < 5; i++) {
+        chunk->SetChunkBlock(x, height + i, z, 21);
+    }
+    for (int i = -2; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = -2; k < 3; k++) {
+                // Use World class here, because we need the fact that we might change a neighbouring chunk.
+                World::g_world->SetBlockAtWorldPosition(i + x + chunkX * chunk_size, height + j + 5,
+                                                        k + z + chunkZ * chunk_size, 52, false);
+            }
+        }
+    }
+    for (int i = -1; i < 2; i++) {
+        for (int j = -1; j < 2; j++) {
+
+            World::g_world->SetBlockAtWorldPosition(i + x + chunkX * chunk_size, height + 8,
+                                                    j + z + chunkZ * chunk_size, 52, false);
+        }
+    }
+
+    for (int j = -1; j < 2; j++) {
+
+        World::g_world->SetBlockAtWorldPosition(3 + x + chunkX * chunk_size, height + 6,
+                                                j + z + chunkZ * chunk_size, 52, false);
+    }
+    for (int j = -1; j < 2; j++) {
+
+        World::g_world->SetBlockAtWorldPosition(-3 + x + chunkX * chunk_size, height + 6,
+                                                j + z + chunkZ * chunk_size, 52, false);
+    }
+
+    for (int j = -1; j < 2; j++) {
+
+        World::g_world->SetBlockAtWorldPosition(j + x + chunkX * chunk_size, height + 6,
+                                                3 + z + chunkZ * chunk_size, 52, false);
+    }
+    for (int j = -1; j < 2; j++) {
+
+        World::g_world->SetBlockAtWorldPosition(j + x + chunkX * chunk_size, height + 6,
+                                                -3 + z + chunkZ * chunk_size, 52, false);
+    }
+
+    World::g_world->SetBlockAtWorldPosition(x + chunkX * chunk_size, height + 9,
+                                            z + chunkZ * chunk_size, 52, false);
 }

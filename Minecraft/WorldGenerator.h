@@ -13,4 +13,6 @@ public:
 
 private:
 	FastNoise noise;
+
+    static inline void GenerateTree(Chunk* chunk, int x, int z, int height);
 };
