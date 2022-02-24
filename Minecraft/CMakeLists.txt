@@ -33,8 +33,7 @@ add_executable(OpenMinecraft
         "World.cpp"
         "WorldGenerator.cpp"
         "FastNoise/FastNoise.cpp"
-        "stb_image.h"
-        "PairHash.h")
+        "PlayerRenderer.cpp")
 
 
 if (BUILD_EMSCRIPTEN) # Build to Web...

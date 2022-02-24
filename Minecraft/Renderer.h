@@ -6,12 +6,12 @@
 
 #include "BlockRenderer.h"
 #include "Skybox.h"
+#include "PlayerRenderer.h"
 
 class Renderer
 {
 public:
 	Renderer(int scr_width, int scr_height, const Camera &camera);
-	~Renderer();
 
 	void Render();
 
@@ -25,9 +25,11 @@ private:
 
 	const Camera& mainCamera;
 
-	Shader* blockShader;
-	Skybox* skybox;
-	BlockRenderer* blockRenderer;
+    std::unique_ptr<Shader> blockShader;
+    std::unique_ptr<Skybox> skybox;
+    std::unique_ptr<BlockRenderer> blockRenderer;
+
+    std::unique_ptr<PlayerRenderer> playerRenderer;
 
 	float projRatio;
 	float projNearClip;

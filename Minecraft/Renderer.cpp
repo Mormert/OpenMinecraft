@@ -25,9 +25,11 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_MULTISAMPLE); // Not supported when going ES 3.0
 
-	blockShader = new Shader("data/block.vert", "data/block.frag");
-	skybox = new Skybox("data/skybox.vert", "data/skybox.frag");
-	blockRenderer = new BlockRenderer(camera);
+	blockShader = std::make_unique<Shader>("data/block.vert", "data/block.frag");
+	skybox = std::make_unique<Skybox>("data/skybox.vert", "data/skybox.frag");
+	blockRenderer = std::make_unique<BlockRenderer>(camera);
+
+    playerRenderer = std::make_unique<PlayerRenderer>();
 
 	projFarClip = 375.0f;
 	projNearClip = 0.1f;
@@ -40,12 +42,6 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
 	blockShader->SetMat4("projection", projection);
 
-}
-
-Renderer::~Renderer()
-{
-	delete blockRenderer;
-	delete blockShader;
 }
 
 BlockRenderer &Renderer::GetBlockRenderer()
@@ -79,7 +75,20 @@ void Renderer::Render()
 
 	blockShader->Use();
 	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
+    blockRenderer->RenderAllBufferedChunks();
 
-	blockRenderer->RenderAllBufferedChunks();
+    std::vector<Player> players;
+    Player p;
+    p.location = glm::vec3{10.f,11.5f,3.f};
+    p.rotation = glfwGetTime() * 40.f;
+    p.headRotation = 5.f;
+    players.push_back(p);
+
+
+    p.location  = glm::vec3{10.f,11.5f,19.f};
+    p.headRotation = -17.f;
+    players.push_back(p);
+
+    playerRenderer->RenderPlayers(players, projection);
 	
 }
