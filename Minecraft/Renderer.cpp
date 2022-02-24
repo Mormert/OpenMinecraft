@@ -38,9 +38,9 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 
 	SetPerspective(projFovDegree, projRatio, projNearClip, projFarClip);
 
+    // TODO: Encapsulate block shader into BlockRenderer.
 	blockShader->Use();
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
-	blockShader->SetMat4("projection", projection);
 
 }
 
@@ -53,7 +53,6 @@ void Renderer::SetPerspective(float FovDegree, float ratio, float nearClip, floa
 {
 	projection = glm::mat4{ 1.0f };
 	projection = glm::perspective(glm::radians(FovDegree), ratio, nearClip, farClip);
-	blockShader->SetMat4("projection", projection);
     blockRenderer->SetProjectionMatrix(projection);
 }
 
@@ -75,17 +74,18 @@ void Renderer::Render()
 
 	blockShader->Use();
 	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
+    blockShader->SetMat4("projection", projection);
     blockRenderer->RenderAllBufferedChunks();
 
     std::vector<Player> players;
     Player p;
-    p.location = glm::vec3{10.f,11.5f,3.f};
+    p.location = glm::vec3{10.f,21.5f,3.f};
     p.rotation = glfwGetTime() * 40.f;
     p.headRotation = 5.f;
     players.push_back(p);
 
 
-    p.location  = glm::vec3{10.f,11.5f,19.f};
+    p.location  = glm::vec3{10.f,21.5f,19.f};
     p.headRotation = -17.f;
     players.push_back(p);
 
