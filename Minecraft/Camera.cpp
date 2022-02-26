@@ -250,7 +250,7 @@ void Camera::ProcessMouseLeftClick() {
         auto bt = World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z);
         if(bt != 0 && bt != -1)
         {
-            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 0, true);
+            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 0, true, true);
             break;
         }
     }
@@ -279,7 +279,7 @@ void Camera::ProcessMouseRightClick() {
         auto bt = World::g_world->GetBlockAtWorldPosition(pos.x, pos.y, pos.z);
         if(bt == 0)
         {
-            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 3, true);
+            World::g_world->SetBlockAtWorldPosition(pos.x, pos.y, pos.z, 3, true, true);
             break;
         }
     }

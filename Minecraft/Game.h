@@ -2,7 +2,7 @@
 
 #include "World.h"
 #include "BlockRenderer.h"
-
+#include "Networking.h"
 
 class Game
 {
@@ -12,5 +12,8 @@ public:
 	void Update(float deltaTime);
 
 private:
+
 	World world;
+
+    Networking networking;
 };

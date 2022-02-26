@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "World.h"
 #include "Shader.h"
 
 #include <iostream>
@@ -78,16 +79,10 @@ void Renderer::Render()
     blockRenderer->RenderAllBufferedChunks();
 
     std::vector<Player> players;
-    Player p;
-    p.location = glm::vec3{10.f,21.5f,3.f};
-    p.rotation = glfwGetTime() * 40.f;
-    p.headRotation = 5.f;
-    players.push_back(p);
-
-
-    p.location  = glm::vec3{10.f,21.5f,19.f};
-    p.headRotation = -17.f;
-    players.push_back(p);
+    for(auto&& p : World::g_world->GetPlayers())
+    {
+        players.push_back(p.second);
+    }
 
     playerRenderer->RenderPlayers(players, projection);
 	

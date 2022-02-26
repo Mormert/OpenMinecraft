@@ -69,6 +69,7 @@ void PlayerRenderer::RenderPlayers(const std::vector<Player> &players, glm::mat4
     shader->SetMat4("view", view);
 
     constexpr glm::vec3 playerScaleConstant = 0.6f * glm::one<glm::vec3>();
+    constexpr glm::vec3 playerOffsetConstant = glm::vec3{0.f, -1.f, 0.f};
 
     const auto m = proj * view;
     Frustum frustum{m};
@@ -85,20 +86,23 @@ void PlayerRenderer::RenderPlayers(const std::vector<Player> &players, glm::mat4
         // Body
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, player.location);
+        model = glm::translate(model, playerOffsetConstant);
         model = glm::scale(model, playerScaleConstant);
-        model = glm::rotate(model, glm::radians(player.rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, player.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3{.5f, 2.5f, 1.f});
         shader->SetMat4("model", model);
         shader->SetVec3("color", glm::vec3(0.2, 0.2, 0.8));
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Head
+        float headRot = glm::clamp(player.headRotation, -glm::quarter_pi<float>(), glm::quarter_pi<float>());
         model = glm::mat4(1.0f);
         model = glm::translate(model, player.location);
+        model = glm::translate(model, playerOffsetConstant);
         model = glm::scale(model, playerScaleConstant);
         model = glm::translate(model, glm::vec3(0.f, 1.45f, 0.f));
-        model = glm::rotate(model, glm::radians(player.rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(player.headRotation), glm::vec3(0.f, 0.f, 1.f));
+        model = glm::rotate(model, player.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, headRot, glm::vec3(0.f, 0.f, 1.f));
         model = glm::translate(model, glm::vec3(0.f, .25f, 0.f));
         model = glm::scale(model, glm::vec3{.8f, .8f, .8f});
         shader->SetMat4("model", model);
@@ -109,8 +113,9 @@ void PlayerRenderer::RenderPlayers(const std::vector<Player> &players, glm::mat4
         {
             model = glm::mat4(1.0f);
             model = glm::translate(model, player.location);
+            model = glm::translate(model, playerOffsetConstant);
             model = glm::scale(model, playerScaleConstant);
-            model = glm::rotate(model, glm::radians(player.rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::rotate(model, player.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
             model = glm::translate(model, glm::vec3(0.f, 0.65f, .725f));
             model = glm::scale(model, glm::vec3{.4f, 1.2f, .4f});
             shader->SetMat4("model", model);
@@ -119,8 +124,9 @@ void PlayerRenderer::RenderPlayers(const std::vector<Player> &players, glm::mat4
 
             model = glm::mat4(1.0f);
             model = glm::translate(model, player.location);
+            model = glm::translate(model, playerOffsetConstant);
             model = glm::scale(model, playerScaleConstant);
-            model = glm::rotate(model, glm::radians(player.rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::rotate(model, player.rotation, glm::vec3(0.0f, 1.0f, 0.0f));
             model = glm::translate(model, glm::vec3(0.f, 0.65f, -0.725f));
             model = glm::scale(model, glm::vec3{.4f, 1.2f, .4f});
             shader->SetMat4("model", model);

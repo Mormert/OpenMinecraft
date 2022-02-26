@@ -33,8 +33,10 @@ add_executable(OpenMinecraft
         "World.cpp"
         "WorldGenerator.cpp"
         "FastNoise/FastNoise.cpp"
-        "PlayerRenderer.cpp")
-
+        "PlayerRenderer.cpp"
+        "Networking.cpp"
+        "NetworkingNative.cpp"
+        "NetworkingJS.cpp")
 
 if (BUILD_EMSCRIPTEN) # Build to Web...
 
@@ -45,7 +47,7 @@ if (BUILD_EMSCRIPTEN) # Build to Web...
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
     set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "index")
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=cwrap --shell-file ../shell_fullscreen.html --preload-file data")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -o index.html -s USE_WEBGL2=1 -s USE_GLFW=3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=cwrap -s EXPORTED_FUNCTIONS=_main,_resize_canvas_js --shell-file ../shell_fullscreen.html --preload-file data")
 
     #add_definitions("-s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
     #add_definitions("-s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
@@ -54,7 +56,12 @@ if (BUILD_EMSCRIPTEN) # Build to Web...
 
 else () # Non-Web Build...
 
-    # Compile also glad.c
+    add_subdirectory(3rdparty/socket.io-cpp)
+    target_link_libraries(OpenMinecraft PUBLIC sioclient)
+    target_include_directories(OpenMinecraft SYSTEM PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/socket.io-cpp/src")
+
+    # Compile also glad.c when building w/o emscripten
     target_sources(OpenMinecraft PRIVATE "3rdparty/glad/glad.c")
 
     # Remove GLFW tests, examples and docs from build
