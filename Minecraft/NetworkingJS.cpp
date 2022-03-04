@@ -30,6 +30,12 @@ extern "C"
         Networking::net->id = dataString;
         Networking::connected = true;
     }
+
+    EMSCRIPTEN_KEEPALIVE
+    void socket_io_player_disconnected_js(char *value) {
+        const std::string dataString{value};
+        Networking::OnPlayerDisconnectEvent(dataString);
+    }
 }
 
 
@@ -78,6 +84,18 @@ void Networking::Connect(const std::string &uri) {
 
                 console.log("Socket connected!");
         });
+
+        window.socket.on('player_disconnected', data => {
+                stringData = data;
+                var ptr = allocate(intArrayFromString(stringData), ALLOC_NORMAL);
+
+                // Pass the string over to C++
+                _socket_io_player_disconnected_js(ptr);
+
+                // Free the data string
+                _free(ptr);
+        });
+
     );
 
 }

@@ -11,14 +11,9 @@
 
 void Networking::EmitPlayerPosition(glm::vec3 position, float rotation, float headRotation) {
     std::stringstream s;
-    auto session_id = GetSessionID();
 
-    if (session_id.empty()) {
-        return;
-    }
-
-    s << session_id << '\n' << position.x << '\n' << position.y << '\n' << position.z << '\n' << rotation << '\n'
-      << headRotation << '\n';
+    // Note that the server also adds the client's ID as the first data parameter
+    s << position.x << '\n' << position.y << '\n' << position.z << '\n' << rotation << '\n' << headRotation << '\n';
     EmitEvent("position", s.str());
 }
 
@@ -48,4 +43,8 @@ void Networking::OnBlockEvent(const std::string &data) {
     ss >> x >> y >> z >> block_id;
 
     World::g_world->SetBlockAtWorldPositionNetworked(x, y, z, block_id);
+}
+
+void Networking::OnPlayerDisconnectEvent(const std::string &data) {
+    World::g_world->RemovePlayer(data);
 }
