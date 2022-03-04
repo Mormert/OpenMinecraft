@@ -24,6 +24,12 @@ void Networking::Connect(const std::string &uri) {
 }
 
 void Networking::EmitEvent(const std::string &event, const std::string &data) {
+
+    if(!connected)
+    {
+        return;
+    }
+
     c.socket()->emit(event, data);
 }
 

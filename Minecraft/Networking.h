@@ -27,6 +27,14 @@ public:
 
     static inline bool connected = false;
 
+    // Called from JS or Native C++
+    static void OnPositionEvent(const std::string& data);
+    static void OnBlockEvent(const std::string& data);
+
+#ifdef __EMSCRIPTEN__
+    std::string id;
+#endif
+
 private:
 
     // Has native and JS implementation
@@ -34,10 +42,6 @@ private:
 
     // Has native and JS implementation
     std::string GetSessionID();
-
-    static void OnPositionEvent(const std::string& data);
-
-    static void OnBlockEvent(const std::string& data);
 
 #ifndef __EMSCRIPTEN__
     sio::client c;

@@ -36,6 +36,9 @@
 <body>
 <canvas class="emscripten" id="canvas"></canvas>
 
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
     var canvas = document.getElementById("canvas");
 
@@ -53,7 +56,7 @@
 
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-            }, 500)
+            }, 1500)
         },
     };
 

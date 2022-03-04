@@ -1,5 +1,19 @@
 {
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for Open Minecraft",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Johan Lind",
+  "license": "ISC",
   "dependencies": {
+    "express": "^4.17.3",
     "socket.io": "^4.4.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }

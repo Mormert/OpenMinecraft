@@ -7,11 +7,12 @@
 #include "Camera.h"
 
 Game::Game(BlockRenderer &_blockRenderer) :
-        world{rand(), 12, _blockRenderer} {
+        world{1337, 12, _blockRenderer} {
 
     world.BufferChunksToBlockRenderer();
 
-    networking.Connect("http://hexablo:314");
+    //networking.Connect("http://localhost:314");
+    networking.Connect("http://open-mc.herokuapp.com");
 
     std::set<Chunk *> chunksAffected;
 
