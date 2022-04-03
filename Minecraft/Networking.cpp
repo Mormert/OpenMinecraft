@@ -4,6 +4,7 @@
 #include "Networking.h"
 
 #include "World.h"
+#include "Renderer.h"
 
 #include <memory>
 #include <iostream>
@@ -47,4 +48,14 @@ void Networking::OnBlockEvent(const std::string &data) {
 
 void Networking::OnPlayerDisconnectEvent(const std::string &data) {
     World::g_world->RemovePlayer(data);
+}
+
+void Networking::OnEnvironmentSettingUpdateEvent(const std::string &data) {
+    std::istringstream ss{data};
+    float humidity, brightness;
+    ss >> humidity >> brightness;
+
+    auto renderer = Renderer::renderer;
+    renderer->SetHumidity(humidity);
+    renderer->SetBrightness(brightness);
 }

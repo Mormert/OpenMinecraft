@@ -25,6 +25,11 @@ void Networking::Connect(const std::string &uri) {
                 OnPlayerDisconnectEvent(data->get_string());
             }));
 
+    c.socket()->on("environment_update", sio::socket::event_listener_aux(
+            [&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp) {
+                OnEnvironmentSettingUpdateEvent(data->get_string());
+            }));
+
     connected = true;
 }
 

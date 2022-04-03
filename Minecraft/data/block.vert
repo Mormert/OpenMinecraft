@@ -8,6 +8,7 @@ layout (location = 4) in vec4 instancingDataFaces; // front, top, bottom, 3x sid
 
 out vec3 FragPos;
 out vec2 TexCoords;
+out vec3 ViewPosition;
 
 out float shadowStrength;
 flat out int face_id;
@@ -34,6 +35,8 @@ void main()
 	faces = instancingDataFaces;
 	face_id = int(aFaceId_FaceShadow.x) -1; // can be 0, 1, 2, 3, 4
 	shadowStrength = aFaceId_FaceShadow.y;
-    
+
+	ViewPosition = (view * vec4(FragPos, 1.0)).xyz;
+
     gl_Position = projection * view * vec4(FragPos, 1.0);
 }

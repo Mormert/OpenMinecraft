@@ -31,6 +31,7 @@ public:
     static void OnPositionEvent(const std::string& data);
     static void OnBlockEvent(const std::string& data);
     static void OnPlayerDisconnectEvent(const std::string& data);
+    static void OnEnvironmentSettingUpdateEvent(const std::string& data);
 
 #ifdef __EMSCRIPTEN__
     std::string id;

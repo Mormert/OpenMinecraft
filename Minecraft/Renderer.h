@@ -8,6 +8,8 @@
 #include "Skybox.h"
 #include "PlayerRenderer.h"
 
+#include <atomic>
+
 class Renderer
 {
 public:
@@ -17,6 +19,12 @@ public:
 
 	void SetPerspective(float FovDegree, float ratio, float nearClip, float farClip);
 	void SetAspectRatio(int w, int h);
+
+	static inline Renderer* renderer;
+
+	// Thread safe
+	void SetHumidity(float h);
+	void SetBrightness(float dt);
 
 	BlockRenderer& GetBlockRenderer();
 
@@ -37,5 +45,8 @@ private:
 	float projFovDegree;
 
 	int screenW, screenH;
+
+	std::atomic<float> humidity = 0.05f, brightness = 1.f;
+
 };
 

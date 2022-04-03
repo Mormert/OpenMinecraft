@@ -36,6 +36,12 @@ extern "C"
         const std::string dataString{value};
         Networking::OnPlayerDisconnectEvent(dataString);
     }
+
+    EMSCRIPTEN_KEEPALIVE
+    void socket_io_environment_update_js(char *value) {
+        const std::string dataString{value};
+        Networking::OnEnvironmentSettingUpdateEvent(dataString);
+    }
 }
 
 
@@ -91,6 +97,17 @@ void Networking::Connect(const std::string &uri) {
 
                 // Pass the string over to C++
                 _socket_io_player_disconnected_js(ptr);
+
+                // Free the data string
+                _free(ptr);
+        });
+
+        window.socket.on('environment_update', data => {
+                stringData = data;
+                var ptr = allocate(intArrayFromString(stringData), ALLOC_NORMAL);
+
+                // Pass the string over to C++
+                _socket_io_environment_update_js(ptr);
 
                 // Free the data string
                 _free(ptr);

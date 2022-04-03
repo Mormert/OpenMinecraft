@@ -43,6 +43,8 @@ Renderer::Renderer(int scr_width, int scr_height, const Camera &camera)
 	blockShader->Use();
 	blockShader->SetMat4("model", glm::mat4{ 1.0f });
 
+    renderer = this;
+
 }
 
 BlockRenderer &Renderer::GetBlockRenderer()
@@ -70,12 +72,21 @@ void Renderer::Render()
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
+    // Environment setting
+    float brightnessValue = brightness;
+    float humidityValue = humidity;
+    skybox->SetBrightness(brightnessValue);
+    skybox->SetHumidity(humidityValue);
+
 	skybox->Render(mainCamera.Front, screenW, screenH);
 
 	blockShader->Use();
 	blockShader->SetMat4("view", mainCamera.GetViewMatrix());
     blockShader->SetMat4("projection", projection);
+    blockShader->SetFloat("humidity", humidityValue * 0.05f);
+    blockShader->SetFloat("brightness", brightnessValue);
+
     blockRenderer->RenderAllBufferedChunks();
 
     std::vector<Player> players;
@@ -86,4 +97,12 @@ void Renderer::Render()
 
     playerRenderer->RenderPlayers(players, projection);
 	
+}
+
+void Renderer::SetHumidity(float h) {
+    humidity = glm::clamp(h, 0.f, 1.f);
+}
+
+void Renderer::SetBrightness(float dt) {
+    brightness = glm::clamp(dt, 0.f, 1.f);
 }

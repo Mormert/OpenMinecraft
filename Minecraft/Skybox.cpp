@@ -47,9 +47,19 @@ void Skybox::Render(const glm::vec3 &cameraDirection, int screenWidth, int scree
 	shader->Use();
 	shader->SetVec3("camdir", cameraDirection);
 	shader->SetVec2("resolution", glm::vec2{ static_cast<float>(screenWidth), static_cast<float>(screenHeight) });
+    shader->SetFloat("brightness", brightness);
+    shader->SetFloat("humidity", humidity);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+void Skybox::SetBrightness(float b) {
+    this->brightness = b;
+}
+
+void Skybox::SetHumidity(float h) {
+    this->humidity = h;
 }

@@ -12,8 +12,14 @@ public:
 
 	void Render(const glm::vec3 &cameraDirection, int screenWidth, int screenHeight);
 
+    void SetBrightness(float b);
+    void SetHumidity(float h);
+
 private:
 	Shader *shader;
 	unsigned int VAO, VBO;
+
+    float brightness = 1.f;
+    float humidity = 0.f;
 };
 

@@ -12,12 +12,12 @@ Game::Game(BlockRenderer &_blockRenderer) :
     world.BufferChunksToBlockRenderer();
 
 #ifdef __EMSCRIPTEN__
-    //networking.Connect("localhost:314");
+    networking.Connect("localhost:314");
 #else
-    //networking.Connect("http://localhost:314");
+    networking.Connect("http://localhost:314");
 #endif
 
-    networking.Connect("http://open-mc.herokuapp.com");
+    //networking.Connect("http://open-mc.herokuapp.com");
 
     std::set<Chunk *> chunksAffected;
 
