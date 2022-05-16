@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open MC Dashboard</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<div class="wrapper">
+    <br>
+    <h1>Open MC Admin Dashboard</h1>
+    <header><i>Login Page</i></header>
+
+    <section style="width: 960px;">
+        <form action="/login/password" method="post">
+            <div>
+                <label for="username">Username</label>
+                <input style="margin-left: 5px;" id="username" name="username" type="text" autocomplete="username"
+                       required/>
+            </div>
+            <div>
+                <label for="current-password">Password</label>
+                <input style="margin-left: 6px;" id="current-password" name="password" type="password"
+                       autocomplete="current-password" required/>
+            </div>
+            <div>
+                <button type="submit">Sign In</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+</body>
+</html>

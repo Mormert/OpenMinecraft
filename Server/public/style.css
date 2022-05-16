@@ -1,0 +1,72 @@
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
+header {
+    width: 960px;
+}
+
+nav, section {
+    float: left;
+}
+
+nav {
+    width: 200px;
+    margin-right: 10px;
+    min-height: 650px;
+}
+
+section {
+    width: 750px;
+    min-height: 650px;
+}
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background: #2980b9;
+    color: #FFF;
+    font-family: Helvetica;
+    text-align: center;
+    margin: 0;
+}
+
+button, input[type=submit] {
+    background-color: #5a8fd7;
+    width: 50%;
+    color: #d8e7e7;
+    padding: 15px;
+    margin: 10px 0px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=text], input[type=password], input[type=apikey], select {
+    width: 40%;
+    margin: 8px 0;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 2px solid #006980;
+    box-sizing: border-box;
+}
+
+header,
+nav,
+section {
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+header {
+    padding: 20px 0;
+}
+
+nav, section {
+    padding: 200px 0;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<div class="wrapper">
+    <br>
+    <h1>Open MC Admin Dashboard</h1>
+    <header><i>Access Denied</i></header>
+    <nav>
+        <form action="/manageaccount" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="My Account"/>
+            </div>
+        </form>
+        <form action="/" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="Dashboard"/>
+            </div>
+        </form>
+        <form action="/logout" method="post">
+            <div>
+                <input style="width: 60%;background-color: #ee2525;" type="submit" value="Log Out"/>
+            </div>
+        </form>
+    </nav>
+    <section>
+        Access to this page was denied. Only an admin have access.
+    </section>
+</div>
+
+</body>
+</html>

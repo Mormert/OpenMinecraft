@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open MC Dashboard</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<div class="wrapper">
+    <br>
+    <h1>Open MC Admin Dashboard</h1>
+    <header><i>Manage Users Page</i></header>
+    <nav>
+        <form action="/manageaccount" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="My Account"/>
+            </div>
+        </form>
+        <form action="/" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="Dashboard"/>
+            </div>
+        </form>
+        <form action="/logout" method="post">
+            <div>
+                <input style="width: 60%;background-color: #ee2525;" type="submit" value="Log Out"/>
+            </div>
+        </form>
+    </nav>
+    <section style="padding-top: 100px; padding-bottom: 150px">
+        <h2>Create new moderator user</h2>
+        <form action="/addmoderator" method="post">
+            <div>
+                <label for="username">Username</label>
+                <input style="margin-left: 8px;" id="username" name="username" type="text" autocomplete="username"
+                       required/>
+            </div>
+            <div>
+                <label for="current-password">Password</label>
+                <input style="margin-left: 10px;" id="current-password" name="password" type="password"
+                       autocomplete="current-password" required/>
+            </div>
+            <div>
+                <label for="role">User Role</label>
+                <select style="margin-left: 7px;" id="role" name="role">
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div>
+                <label for="apikey">Sensor Key</label>
+                <input style="margin-left: 1px; background-color: #afe699;" id="apikey" name="apikey" type="apikey"
+                       autocomplete="apikey" required/>
+            </div>
+            <div>
+                <button type="submit">Add User</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+</body>
+</html>
