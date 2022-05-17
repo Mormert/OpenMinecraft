@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 
 const httpServer = require("http").createServer(app);
 

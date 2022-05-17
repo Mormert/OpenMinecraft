@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open MC Dashboard</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<div class="wrapper">
+    <br>
+    <h1>Open MC Admin Dashboard</h1>
+    <header><i>Manage Account Page</i></header>
+    <nav>
+        <form action="/manageusers" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="Manage Users"/>
+            </div>
+        </form>
+        <form action="/" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="Dashboard"/>
+            </div>
+        </form>
+        <form action="/logout" method="post">
+            <div>
+                <input style="width: 60%;background-color: #ee2525;" type="submit" value="Log Out"/>
+            </div>
+        </form>
+    </nav>
+    <section style="padding-top: 100px; padding-bottom: 150px">
+        <p>Logged in with user account: <%= accountname %></p>
+        <p>User account type is: <%= role %></p>
+        <br>
+        <form action="/manageaccount/updateapikey" method="post">
+            <div>
+                <label for="apikey">Your Sensor API Key:</label>
+                <input value="<%= apikey %>" id="apikey" name="apikey" type="text" autocomplete="apikey" required/>
+            </div>
+            <div>
+                <button type="submit">Update Key</button>
+            </div>
+        </form>
+        <br><br>
+        <form action="/manageaccount/updatepassword" method="post">
+            <div>
+                <label for="updatepassword">Update your password:</label>
+                <input id="updatepassword" name="updatepassword" type="text" autocomplete="updatepassword" required/>
+            </div>
+            <div>
+                <button type="submit">Update Password</button>
+            </div>
+        </form>
+
+    </section>
+</div>
+
+</body>
+</html>

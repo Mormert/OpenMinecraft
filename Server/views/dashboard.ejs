@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open MC Dashboard</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<div class="wrapper">
+    <br>
+    <h1>Open MC Admin Dashboard</h1>
+    <header><i>Dashboard Page</i></header>
+    <nav>
+        <form action="/manageaccount" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="My Account"/>
+            </div>
+        </form>
+        <form action="/manageusers" method="get">
+            <div>
+                <input style="width: 60%" type="submit" value="Manage Users"/>
+            </div>
+        </form>
+        <form action="/logout" method="post">
+            <div>
+                <input style="width: 60%;background-color: #ee2525;" type="submit" value="Log Out"/>
+            </div>
+        </form>
+    </nav>
+    <section  style="padding-top: 20px; padding-bottom: 0px">
+        <h2>Game Server Status</h2>
+        <p>Currently <%= currentplayercount %> players are playing.</p>
+        <h2>Sensor Data History</h2>
+        <table>
+            <th>Time</th>
+            <th>Humidity (RH)</th>
+            <th>Temperature (C)</th>
+            <th>Light (Lux)</th>
+            <%
+            function timeConverter(UNIX_timestamp){
+              var a = new Date(UNIX_timestamp * 1000);
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var year = a.getFullYear();
+              var month = months[a.getMonth()];
+              var date = a.getDate();
+              var hour = ('0' + a.getHours()).slice(-2);
+              var min = ('0' + a.getMinutes()).slice(-2);
+              var sec = ('0' + a.getSeconds()).slice(-2);
+              var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+              return time;
+            }
+            for (var i = 0; i < sensordatapoints.length ; i++) { %>
+            <tr>
+            <td><%= timeConverter(sensordatapoints[i].time) %></td>
+            <td><%= sensordatapoints[i].humidity %></td>
+            <td><%= sensordatapoints[i].temperature %></td>
+            <td><%= sensordatapoints[i].brightness %></td>
+            </tr>
+            <% } %>
+        </table>
+    </section>
+</div>
+
+
+</body>
+</html>

@@ -5,9 +5,17 @@
     // Store all placed blocks, sent to new players joining the server
     const placed_blocks = new Map();
 
+    module.exports.g_connected_players_counter = 0;
+
     module.exports.updateGameEnvironment = function (data, io) {
-        const humidity = data.humidity;
-        const brightness = data.brightness;
+
+        const maxHumidity = 80;
+        const minHumidity = 25;
+        const minBrightness = 0;
+        const maxBrightness = 225;
+
+        const humidity = (data.humidity - minHumidity) / (maxHumidity - minHumidity);
+        const brightness = (data.brightness - minBrightness) / (maxBrightness - minBrightness);
 
         data = humidity + '\n' + brightness;
 
@@ -20,6 +28,8 @@
         io.on('connection', client => {
 
             console.log(client.id + " connected.");
+
+            module.exports.g_connected_players_counter++;
 
             client.on('position', data => {
 
@@ -51,6 +61,8 @@
 
                 // Sent to all players except sender
                 client.broadcast.emit("player_disconnected", client.id);
+
+                module.exports.g_connected_players_counter--;
             });
 
             // Send how the world looks like to new players

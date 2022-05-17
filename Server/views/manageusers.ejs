@@ -29,7 +29,7 @@
             </div>
         </form>
     </nav>
-    <section style="padding-top: 100px; padding-bottom: 150px">
+    <section style="padding-top: 20px; padding-bottom: 0px">
         <h2>Create new moderator user</h2>
         <form action="/addmoderator" method="post">
             <div>
@@ -58,6 +58,32 @@
                 <button type="submit">Add User</button>
             </div>
         </form>
+        <br><br> <h2>List of admin & moderator users</h2>
+        <table>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Sensor API Key</th>
+            <th></th>
+            <% for (var i = 0; i < users.length ; i++) { %>
+            <tr>
+            <td><%= users[i].id %></td>
+            <td><%= users[i].username %> </td>
+            <td>
+                <form action="/manageusers/updateapikey" method="post">
+                    <input value="<%= users[i].apikey %>" style="width: 60%; margin-left: 1px; background-color: #afe699;" id="apikey" name="apikey" type="apikey" autocomplete="apikey" required/>
+                    <button name="id" value="<%= users[i].id %>" style="width: 20%;" type="submit">Update</button>
+                </form>
+            </td>
+            <td>
+                <% if(users[i].id !== 1) {  %>
+                <form action="/manageusers/remove" method="post">
+                    <button name="id" value="<%= users[i].id %>" style="width: 100%; background-color: #ee2525;" type="submit">Delete User</button>
+                </form>
+                <% } %>
+            </td>
+            </tr>
+            <% } %>
+        </table>
     </section>
 </div>
 
