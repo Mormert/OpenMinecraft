@@ -15,6 +15,8 @@
 
 #include <thread>
 #include <atomic>
+#include <string>
+#include <vector>
 
 using namespace std::chrono_literals;
 using json = nlohmann::json;
@@ -112,15 +114,28 @@ void ExceptionHandler(int signo) {
 
 int main(int argc, char **argv) {
 
+    std::vector<std::string> arguments;
+    for (int i = 1; i < argc; i++) {
+        arguments.push_back(argv[i]);
+    }
+
+    if(arguments.size() != 2)
+    {
+        std::printf("ERROR: Please Specify: API-URL API-KEY");
+        std::exit(EXIT_FAILURE);
+    }
+
     // Exception handling: 'Ctrl + C'
     signal(SIGINT, ExceptionHandler);
 
     std::thread dataReadThread_humid_temp{read_data_thread_humidity_temp};
     std::thread dataReadThread_brightness{read_data_thread_brightness};
 
-    httplib::Client cli("http://hexablo:314");
+    httplib::Client cli(arguments.at(0).c_str());
 
-    cli.set_bearer_token_auth("super-secret-token");
+    cli.set_bearer_token_auth(arguments.at(1).c_str());
+
+    std::this_thread::sleep_for(3000ms);
 
     while (true) {
 
@@ -135,7 +150,7 @@ int main(int argc, char **argv) {
 
         cli.Post("/env", data, "application/json");
 
-        std::this_thread::sleep_for(200ms);
+        std::this_thread::sleep_for(1000ms);
     }
 
     return 0;
