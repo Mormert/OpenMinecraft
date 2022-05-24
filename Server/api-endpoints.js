@@ -96,15 +96,6 @@
                             return cb(null, user);
                         }
                     });
-
-
-                    /*if (token === "super-secret-token") {
-                        return cb(null, API_USER);
-                    } else {
-                        return cb(null, false);
-                    }*/
-
-
                 }));
 
             passport.use(new LocalStrategy(function verify(username, password, cb) {
@@ -168,7 +159,7 @@
 
                 var UserDataRepository = dbConnection.getRepository("UserData");
                 UserDataRepository.find().then(function (users) {
-                    res.render("manageusers", {users: users});
+                    res.render("manageusers", {users: users, user: req.user});
                 });
             });
 

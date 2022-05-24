@@ -75,7 +75,7 @@
                 </form>
             </td>
             <td>
-                <% if(users[i].id !== 1) {  %>
+                <% if(users[i].id !== 1 && users[i].id !== user.id ) {  %>
                 <form action="/manageusers/remove" method="post">
                     <button name="id" value="<%= users[i].id %>" style="width: 100%; background-color: #ee2525;" type="submit">Delete User</button>
                 </form>
