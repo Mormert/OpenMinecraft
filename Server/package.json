@@ -19,7 +19,7 @@
     "passport-local": "^1.0.0",
     "socket.io": "^4.4.1",
     "sqlite3": "^5.0.3",
-    "typeorm": "^0.2.0"
+    "typeorm": "^0.3.14"
   },
   "engines": {
     "node": "16.x"
